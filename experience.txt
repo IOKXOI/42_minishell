@@ -1,0 +1,9 @@
+>minishell echo "Bonjour'
+// doit ouvrir un prompt;
+>minihell echo '\0'
+// gestion du free de la liste.
+
+
+
+
+< cat -e bonjour> 
