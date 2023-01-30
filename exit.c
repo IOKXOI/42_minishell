@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstsize.c                                       :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/09 13:13:20 by sydauria          #+#    #+#             */
-/*   Updated: 2021/12/09 13:56:30 by sydauria         ##   ########.fr       */
+/*   Created: 2023/01/29 17:17:30 by sydauria          #+#    #+#             */
+/*   Updated: 2023/01/29 17:26:26 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-int	ft_lstsize(t_list *lst)
+void	*free_list(t_token *list)
 {
-	int	i;
-
-	if (!lst)
-		return (0);
-	i = 1;
-	while ((lst = lst->next) != NULL)
-		i++;
-	return (i);
+	t_token	*to_free;
+	while (list)
+	{
+		to_free = list;
+		list = list->next;
+		free(to_free);
+	}
+	return (NULL);
 }

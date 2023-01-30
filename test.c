@@ -2,7 +2,10 @@
 
 void	print_node(t_token *token)
 {
-	printf(YLW"token:\nname = %s\ntype = %d\nprev = %p\nnext = %p\n", token->name, token->token, token->prev, token->next);
+	printf(YLW"token:\nname = %s\n\
+	type = %d\n\
+	prev = %p\n\
+	next = %p\n", token->name, token->token, token->prev, token->next);
 	if (token->next)
 	{
 		printf("next token = %s\n", token->next->name);
