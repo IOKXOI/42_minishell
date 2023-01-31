@@ -1,50 +1,26 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/01/26 15:27:37 by sydauria          #+#    #+#              #
-#    Updated: 2023/01/26 15:41:42 by sydauria         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+include minishell.mk
 
-NAME=minishell
-SRC=main.c\
-	linked_list.c\
-	test.c\
+SRCS_OBJS := $(patsubst %.c,$(OBJS_DIR)/%.o,$(SRCS))
 
-INCLUDES=includes
-CC=cc
-CFLAGS= -Wall -Werror -Wextra
-BUILD=build
-LIBFT= ./libft
-
-
-OBJS := $(SRC:%.c=$(BUILD)/%.o)
+$(OBJS_DIR)/%.o:$(SRCS_DIR)/%.c
+	@mkdir -vp $(dir $@)
+	$(CC) $(CFLAGS) -g3 -MMD -MP -o $@ -c $< -I $(INCS_DIR)
 
 all: $(NAME)
 
--include:$(DEPS)
+-include  $(SRCS_OBJS:.o=.d)
 
-$(NAME): $(OBJS)
-	$(MAKE) -C $(LIBFT) all --quiet
-	$(CC) $(OBJS) -I $(INCLUDES) -L $(LIBFT) -lft -o $@
-
-$(BUILD)/%.o: %.c ./includes/*.h
-	@mkdir -p '$(@D)'
-	$(CC) $(CFLAGS) -I $(INCLUDES) -L $(LIBFT) -lft -c $< -o $@
-
+$(NAME): $(SRCS_OBJS)
+	$(CC) $(LBSD) $(CFLAGS) $^ -o $(NAME) -lm
 
 clean:
-	$(MAKE) -C $(LIBFT) fclean
-	rm -rf $(BUILD)
+	rm -f $(SRCS_OBJS)
 
 fclean: clean
 	rm -f $(NAME)
+	rm -rf $(OBJS_DIR)
 
 re: fclean
 	make
 
-.PHONY: all clean fclean re
+.PHONY	: all clean fclean re
