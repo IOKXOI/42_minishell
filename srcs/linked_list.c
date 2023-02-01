@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 13:06:14 by sydauria          #+#    #+#             */
-/*   Updated: 2023/01/26 15:55:37 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/01 17:31:14 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ t_token	*init_node()
 	first_node->first = first_node;
 	first_node->prev = NULL;
 	first_node->next = NULL;
-	printf(RED"first_node create\n"WHT);//-
 	return (first_node);
 }
 

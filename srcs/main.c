@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 05:01:04 by sydauria          #+#    #+#             */
-/*   Updated: 2023/01/31 14:49:04 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/01 19:41:25 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,17 @@ short	is_special(char *line)
 	return (0);
 }
 
+bool	pt_is_special_char(char *c)
+{
+	if (is_space(*c) && !is_space(*(c + 1)))
+		return (1);
+	if (is_quote(*c))
+		return (1);
+	if (is_special(c))
+		return (1);
+	return (0);
+}
+
 char	*get_special(int type, char *special_in_line)
 {
 	int limit;
@@ -80,22 +91,11 @@ char	*get_special(int type, char *special_in_line)
 	}
 	else if (type == HERE_DOC || type == OUT_FILE_APPEND)
 	{
-		if (is_special(special_in_line + 1) || *(special_in_line + 2) == EOF)
+		if (is_special(special_in_line + 1) || special_in_line[2] == EOF)
 			return (NULL);
 		return (ft_strndup(special_in_line, 2));
 	}
 	return (NULL);
-}
-
-bool	pt_is_special_char(char *c)
-{
-	if (is_space(*c) && !is_space(*(c + 1)))
-		return (1);
-	if (is_quote(*c))
-		return (1);
-	if (is_special(c))
-		return (1);
-	return (0);
 }
 
 char	*extracted_from(int n, char *original)
@@ -133,6 +133,7 @@ int	get_token(char *line, t_token *token_node)
 	}
 	else if (token_node->token >= HERE_DOC && token_node->token <= PIPE)
 	{
+		printf("coucu\n");
 		token_node->name = get_special(token_node->token, line + offset_in_line);
 		offset_in_line += ft_strlen(token_node->name);
 	}
@@ -158,7 +159,9 @@ t_token *token_recognition(char *line)
 	{
 		while(line[offset_in_line] && is_space(line[offset_in_line]))
 			offset_in_line++;
-		offset_in_line += get_token(line, token_list);
+		if (!line[offset_in_line])
+			return (NULL);
+		offset_in_line += get_token(line + offset_in_line, token_list);
 		remainder = ft_strdup(line + offset_in_line);
 		if (!remainder && line[offset_in_line])
 		{
@@ -169,7 +172,7 @@ t_token *token_recognition(char *line)
 		free(line);
 		line = remainder;
 		print_node(token_list);//-
-		printf(RED "After extract %s from line, remainder is: %s\n" WHT, token_list->name, line);//-
+		printf(RED "After extraction ." YLW"%s" RED ".from line, remainder is: ." YLW"%s" RED".\n"WHT, token_list->name, line);//-
 		offset_in_line = 0;
 		token_list->next = create_new_node(token_list);
 		token_list = token_list->next;
@@ -177,7 +180,7 @@ t_token *token_recognition(char *line)
 	return (token_list->first);
 }
 
-int	parse(char *line)
+int	parse(char *line) 
 {
 	t_token	*token_list;
 
