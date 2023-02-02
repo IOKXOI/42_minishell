@@ -12,6 +12,7 @@ SRCS := 									\
 		test.c								\
 		exit.c								\
 		linked_list.c						\
+		pt_quotes.c							\
 		\
 		utils/ft_strdup.c					\
 		utils/ft_strndup.c					\

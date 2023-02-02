@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 20:18:54 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/02 08:18:49 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/02 10:21:08 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,11 @@
 // ========================================================================= //
 
 enum special {
-	HERE_DOC = 1,
+	SPACE_BIS = 1,
+	QUOTE,
+	GRAVE_QUOTE,
+	QUOTES,
+	HERE_DOC,
 	IN_FILE,
 	OUT_FILE,
 	OUT_FILE_APPEND,
@@ -51,10 +55,6 @@ enum special {
 	CMD,
 	ARG,
 	LIMITER,
-	QUOTE,
-	QUOTES,
-	QUOTES_BIS,
-	SPACE_BIS,
 };
 
 // ========================================================================= //
@@ -62,7 +62,7 @@ enum special {
 // ========================================================================= //
 
 typedef struct s_token {
-	int				token;
+	int				type;
 	char			*name;
 	struct s_token	*first;
 	struct s_token	*prev;
@@ -79,6 +79,14 @@ bool	is_space(char character);
 is it, to identify witch type of quote we need to close quoting. */
 short	is_quote(char charater);
 
+/*Browse on the line, to find the good quote_type to close actual quoting. If don't find the good quote to end,
+copy start_quote until EOF.*/
+char	*get_quoting(int quote_type, char *quote_start);
+
+/*Malloc a string containing the full content of the quotes.
+Add it in t_token->name and return the lenght of the quote*/
+int	full_quote(int offset_in_line, char *line, t_token *token_node);
+
 /*Check if charactere is special, if isn't return (0).*/
 short	is_special(char character);
 
@@ -91,15 +99,11 @@ int		parse(char *line);
 
 /*First step: If the first char is a quote, get the type, and try to catch the end of quote
 Else : The first char isn't a quote*/
-int		get_token(char *line, t_token *token_node);
+int	get_token(int offset_in_line, char *line, t_token *token_node);
 
 /*Is a ft_strdup with one more mallocated character, cause of the index of a
 start to 0*/
 char	*extraction_from_line(int n, char *original);
-
-/*Browse on the line, to find the good quote_type to close actual quoting. If don't find the good quote to end,
-copy start_quote until EOF.*/
-char	*get_quoting(int quote_type, char *quote_start);
 
 /*Init a node, skip first space in line, fill the token_list->name, increment the offset, create a new line with the remainder,
 create new node and continu until remainder is only EOF*/

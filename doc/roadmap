@@ -1,51 +1,25 @@
+Main
+{
+	Parsing
+	{
+		Tokenisation
+		{
+			Separate by special
+			{
+				Skip charactere to have special for next charactere:
+					Copie string until the position.
+				If we are on one special we treat it:
+					Copie string until no more subsequente special charactere.
+			}
 
-plan: token -> analyse -> parsing -> exec
+		}
+		Token sort
+		{
 
+		}
+	}
+	Execution
+	{
 
-1) Token
-
-t_list l_token {
-
-	ID->(token enum);
-	*next;
+	}
 }
-
-exemple: CMD -> ARG -> PIPE -> HERE_DOC -> LIMITOR
-
-enum token {
-
-	CMD;
-	ARG;
-	PIPE;
-
-	REDIR_IN "<";
-	IN_FILE;
-
-	REDIR_OUT ">";
-	OUT_FILE;
-
-	REDIR_OUT_APPEND ">>";
-	OUT_FILE_APPEND;
-
-	HERE_DOC "<<";
-	LIMITOR;
-}
-
--> split les commandes + include everything found inside simple/double quote 
-
-
-
-2) Analyse
-
-	- Syntax Error:	|| + pipe en entree
-					all_redir + all_redir
-					all_redir + pipe
-
-					unclosed quote -> every quotes must be closed !!!!
-						-> write quote if "\" before quote;
-
-
-	bool check 
-		no_error? true : false;
-
-3) Parsing

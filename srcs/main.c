@@ -6,35 +6,11 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 05:01:04 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/02 08:18:53 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/02 11:12:49 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
-short	is_quote(char charater)
-{
-	if (charater == '\'')
-		return (QUOTE);
-	if (charater  == '"')
-		return (QUOTES);
-	if (charater  == '`')
-		return (QUOTES_BIS);
-	return (0);
-	
-}
-
-char	*get_quoting(int quote_type, char *quote_start)
-{
-	int		offset_in_quote;
-	char	*token;
-
-	offset_in_quote = 1;
-	while (quote_start[offset_in_quote] && ((is_quote(quote_start[offset_in_quote]) != quote_type)))
-		offset_in_quote++;
-	token = extraction_from_line(offset_in_quote + 1, quote_start);
-	return (token);
-}
 
 bool	is_space(char character)
 {
@@ -58,16 +34,20 @@ short	is_special(char character)
 	return (0);
 }
 
-// char	*get_special(int type, char *special_in_line)
-// {
-// 	char	*start;
-// 	(void)type;
-
-// 	start = special_in_line;
-// 	while (*special_in_line && (is_special(special_in_line) || is_space(special_in_line)))
-// 		special_in_line++;
-// 	return (ft_strndup(start, special_in_line - start));
-// }
+char	*get_special(int offsett_in_line, char *line, t_token *token_node)
+{
+	while (is_special(line[offsett_in_line]))
+		offsett_in_line++;
+	token_node->name = ft_strndup(line, offsett_in_line);
+	if (!token_node->name)
+	{
+		free_list(token_node->first);
+		free(line);
+		printf("Error: malloc failed");
+		return (NULL);
+	}
+	return (token_node->name);
+}
 
 char	*extraction_from_line(int n, char *original)
 {
@@ -87,35 +67,7 @@ char	*extraction_from_line(int n, char *original)
 	return (new_line);
 }
 
-// int	get_token(char *line, t_token *token_node)
-// {
-// 	int		offset_in_line;
-// 	int		quote_type;
-
-// 	offset_in_line = 0;
-// 	token_node->token = is_special(line + offset_in_line);
-// 	if (token_node->token == QUOTES)
-// 	{
-// 		quote_type = is_quote(line[offset_in_line]);
-// 		token_node->name = get_quoting(quote_type, line + offset_in_line);
-// 		offset_in_line += ft_strlen(token_node->name);
-// 	}
-// 	else if (token_node->token >= HERE_DOC && token_node->token <= PIPE)
-// 	{
-// 		token_node->name = get_special(token_node->token, line + offset_in_line);
-// 		offset_in_line += ft_strlen(token_node->name);
-// 	}
-// 	else
-// 		token_node->name = extraction_from_line(offset_in_line, line);
-// 	if (!token_node->name || offset_in_line < 0)
-// 	{
-// 		ERR
-// 		exit(EXIT_FAILURE);
-// 	}
-// 	return (offset_in_line);
-// }
-
-int32_t	skip_until_special(char *line)
+int32_t	skip_until_special_is_next(char *line)
 {
 	int32_t	offset_in_line;
 
@@ -127,38 +79,49 @@ int32_t	skip_until_special(char *line)
 	return (offset_in_line);
 }
 
-t_token *token_recognition(char *line)
+int	get_token(int offset_in_line, char *line, t_token *token_node)
+{
+	token_node->type = is_special(line[offset_in_line]);
+	if (token_node->type == QUOTES)
+		return (full_quote(offset_in_line, line, token_node));
+	else if (token_node->type)
+		return (ft_strlen(get_special(offset_in_line, line, token_node)) - 1);
+	else
+		token_node->name = extraction_from_line(offset_in_line, line);
+	if (!token_node->name || offset_in_line < 0)
+	{
+		ERR
+		exit(EXIT_FAILURE);
+	}
+	return (0);
+}
+
+char	*token_extracting(char *line, t_token *token)
 {
 	int			offset_in_line;
 	char		*remainder;
+	
+	offset_in_line = skip_until_special_is_next(line);
+	offset_in_line += get_token(offset_in_line ,line, token);
+	remainder = ft_strdup(line + offset_in_line + 1);
+	free(line);
+	return (remainder);
+}
+
+t_token *tokenization(char *line)
+{
 	t_token		*token_list;
 
-	offset_in_line = 0;
 	token_list = init_node();
-	while (line[offset_in_line])
+	while (*line)
 	{
-		offset_in_line += skip_until_special(line + offset_in_line);
-		if (!line[offset_in_line] && !offset_in_line)
-			return (NULL);
-		token_list->name = extraction_from_line(offset_in_line, line);
-		if (!token_list->name)
+		line = token_extracting(line, token_list);
+		if (!line)
 		{
 			free_list(token_list->first);
-			free(line);
 			exit (1);
 		}
-		remainder = ft_strdup(line + offset_in_line + 1);
-		if (!remainder && line[offset_in_line])
-		{
-			free_list(token_list->first);
-			free(line);
-			exit (1);
-		}
-		free(line);
-		line = remainder;
-		print_node(token_list);//-
-		printf(RED "After extraction ." YLW"%s" RED ".from line, remainder is: ." YLW"%s" RED".\n"WHT, token_list->name, line);//-
-		offset_in_line = 0;
+		printf(RED "After extract ."YLW"%s"RED".from line, remainder is: ."YLW"%s.\n" WHT, token_list->name, line);//-
 		token_list->next = create_new_node(token_list);
 		token_list = token_list->next;
 	}
@@ -169,7 +132,7 @@ int	parse(char *line)
 {
 	t_token	*token_list;
 
-	token_list = token_recognition(line);
+	token_list = tokenization(line);
 	printf(RED "\nIn file: %s, line %d : " WHT, __FILE__, __LINE__ + 1);//-
 	//print_all_token(token_list->first);//-
 	return (0);

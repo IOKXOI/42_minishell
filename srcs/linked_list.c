@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 13:06:14 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/01 17:31:14 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/02 10:19:55 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_token	*init_node()
 		exit(EXIT_FAILURE);
 	}
 	first_node->name = "100"; //-
-	first_node->token = 100; //-
+	first_node->type = 100; //-
 	first_node->first = first_node;
 	first_node->prev = NULL;
 	first_node->next = NULL;
@@ -44,7 +44,7 @@ t_token	*create_new_node(t_token *existing_node)
 	}
 	existing_node->next = new_node;
 	new_node->name = "100"; //-
-	new_node->token = 100; //-
+	new_node->type = 100; //-
 	new_node->first = existing_node->first;
 	new_node->prev = existing_node;
 	new_node->next = NULL;
