@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 05:01:04 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/01 19:41:25 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/02 08:18:53 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 short	is_quote(char charater)
 {
 	if (charater == '\'')
-		return (35);
+		return (QUOTE);
 	if (charater  == '"')
-		return (36);
+		return (QUOTES);
 	if (charater  == '`')
-		return (37);
+		return (QUOTES_BIS);
 	return (0);
 	
 }
@@ -32,7 +32,7 @@ char	*get_quoting(int quote_type, char *quote_start)
 	offset_in_quote = 1;
 	while (quote_start[offset_in_quote] && ((is_quote(quote_start[offset_in_quote]) != quote_type)))
 		offset_in_quote++;
-	token = extracted_from(offset_in_quote + 1, quote_start);
+	token = extraction_from_line(offset_in_quote + 1, quote_start);
 	return (token);
 }
 
@@ -43,62 +43,33 @@ bool	is_space(char character)
 	return (0);
 }
 
-short	is_special(char *line)
+short	is_special(char character)
 {
-	printf(YLW "\nok\n");
-	if (*line == '<')
-	{
-		if (*line + 1 == '<')
-			return (1);
-		return (2);
-	}
-	if (*line == '>')
-	{
-		if (*line + 1 == '>')
-			return (4);
-		return (3);
-	}
-	if (*line == '|')
-		return (5);
-	if (*line == '\'' || *line == '"' || *line == '`')
-		return (34);
+	if (is_space(character))
+		return(SPACE_BIS);
+	if (character == '<')
+		return (IN_FILE);
+	if (character == '>')
+		return (OUT_FILE);
+	if (character == '|')
+		return (PIPE);
+	if (character == '\'' || character == '"' || character == '`')
+		return (QUOTES);
 	return (0);
 }
 
-bool	pt_is_special_char(char *c)
-{
-	if (is_space(*c) && !is_space(*(c + 1)))
-		return (1);
-	if (is_quote(*c))
-		return (1);
-	if (is_special(c))
-		return (1);
-	return (0);
-}
+// char	*get_special(int type, char *special_in_line)
+// {
+// 	char	*start;
+// 	(void)type;
 
-char	*get_special(int type, char *special_in_line)
-{
-	int limit;
-	
-	limit = ft_strlen(special_in_line);
-	if (limit < 2)
-		return (NULL);
-	if (type == IN_FILE || type == OUT_FILE || type == PIPE)
-	{
-		if (is_special(special_in_line + 1) || special_in_line[1] == EOF)
-			return (NULL);
-		return (ft_strndup(special_in_line, 1));
-	}
-	else if (type == HERE_DOC || type == OUT_FILE_APPEND)
-	{
-		if (is_special(special_in_line + 1) || special_in_line[2] == EOF)
-			return (NULL);
-		return (ft_strndup(special_in_line, 2));
-	}
-	return (NULL);
-}
+// 	start = special_in_line;
+// 	while (*special_in_line && (is_special(special_in_line) || is_space(special_in_line)))
+// 		special_in_line++;
+// 	return (ft_strndup(start, special_in_line - start));
+// }
 
-char	*extracted_from(int n, char *original)
+char	*extraction_from_line(int n, char *original)
 {
 	int		i;
 	char	*new_line;
@@ -116,34 +87,43 @@ char	*extracted_from(int n, char *original)
 	return (new_line);
 }
 
-int	get_token(char *line, t_token *token_node)
+// int	get_token(char *line, t_token *token_node)
+// {
+// 	int		offset_in_line;
+// 	int		quote_type;
+
+// 	offset_in_line = 0;
+// 	token_node->token = is_special(line + offset_in_line);
+// 	if (token_node->token == QUOTES)
+// 	{
+// 		quote_type = is_quote(line[offset_in_line]);
+// 		token_node->name = get_quoting(quote_type, line + offset_in_line);
+// 		offset_in_line += ft_strlen(token_node->name);
+// 	}
+// 	else if (token_node->token >= HERE_DOC && token_node->token <= PIPE)
+// 	{
+// 		token_node->name = get_special(token_node->token, line + offset_in_line);
+// 		offset_in_line += ft_strlen(token_node->name);
+// 	}
+// 	else
+// 		token_node->name = extraction_from_line(offset_in_line, line);
+// 	if (!token_node->name || offset_in_line < 0)
+// 	{
+// 		ERR
+// 		exit(EXIT_FAILURE);
+// 	}
+// 	return (offset_in_line);
+// }
+
+int32_t	skip_until_special(char *line)
 {
-	int		offset_in_line;
-	int		quote_type;
+	int32_t	offset_in_line;
 
 	offset_in_line = 0;
-	while (line[offset_in_line] && !pt_is_special_char(line + offset_in_line))
+	if (is_special(line [offset_in_line]))
+		return (offset_in_line);
+	while (line[offset_in_line] && !is_special(line[offset_in_line + 1]))
 		offset_in_line++;
-	token_node->token = is_special(line + offset_in_line);
-	if (token_node->token == '"')
-	{
-		quote_type = is_quote(line[offset_in_line]);
-		token_node->name = get_quoting(quote_type, line + offset_in_line);
-		offset_in_line += ft_strlen(token_node->name);
-	}
-	else if (token_node->token >= HERE_DOC && token_node->token <= PIPE)
-	{
-		printf("coucu\n");
-		token_node->name = get_special(token_node->token, line + offset_in_line);
-		offset_in_line += ft_strlen(token_node->name);
-	}
-	else
-		token_node->name = extracted_from(offset_in_line, line);
-	if (!token_node->name || offset_in_line < 0)
-	{
-		ERR
-		exit(EXIT_FAILURE);
-	}
 	return (offset_in_line);
 }
 
@@ -157,12 +137,17 @@ t_token *token_recognition(char *line)
 	token_list = init_node();
 	while (line[offset_in_line])
 	{
-		while(line[offset_in_line] && is_space(line[offset_in_line]))
-			offset_in_line++;
-		if (!line[offset_in_line])
+		offset_in_line += skip_until_special(line + offset_in_line);
+		if (!line[offset_in_line] && !offset_in_line)
 			return (NULL);
-		offset_in_line += get_token(line + offset_in_line, token_list);
-		remainder = ft_strdup(line + offset_in_line);
+		token_list->name = extraction_from_line(offset_in_line, line);
+		if (!token_list->name)
+		{
+			free_list(token_list->first);
+			free(line);
+			exit (1);
+		}
+		remainder = ft_strdup(line + offset_in_line + 1);
 		if (!remainder && line[offset_in_line])
 		{
 			free_list(token_list->first);

@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 20:18:54 by sydauria          #+#    #+#             */
-/*   Updated: 2023/01/31 14:35:06 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/02 08:18:49 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 #include <readline/history.h>
 #include <stdbool.h>
 #include <limits.h>
+#include <stdint.h>
 
 // ========================================================================= //
 //                                   Define                                  //
@@ -41,7 +42,7 @@
 //                                    Enum                                   //
 // ========================================================================= //
 
-enum token{
+enum special {
 	HERE_DOC = 1,
 	IN_FILE,
 	OUT_FILE,
@@ -50,6 +51,10 @@ enum token{
 	CMD,
 	ARG,
 	LIMITER,
+	QUOTE,
+	QUOTES,
+	QUOTES_BIS,
+	SPACE_BIS,
 };
 
 // ========================================================================= //
@@ -57,7 +62,7 @@ enum token{
 // ========================================================================= //
 
 typedef struct s_token {
-	char			token;
+	int				token;
 	char			*name;
 	struct s_token	*first;
 	struct s_token	*prev;
@@ -75,7 +80,7 @@ is it, to identify witch type of quote we need to close quoting. */
 short	is_quote(char charater);
 
 /*Check if charactere is special, if isn't return (0).*/
-short	is_special(char *line);
+short	is_special(char character);
 
 /*Check if the character is a special char, or if a character is a white space
 with a valid charactere behind*/
@@ -90,7 +95,7 @@ int		get_token(char *line, t_token *token_node);
 
 /*Is a ft_strdup with one more mallocated character, cause of the index of a
 start to 0*/
-char	*extracted_from(int n, char *original);
+char	*extraction_from_line(int n, char *original);
 
 /*Browse on the line, to find the good quote_type to close actual quoting. If don't find the good quote to end,
 copy start_quote until EOF.*/
