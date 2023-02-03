@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 13:06:14 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/02 10:19:55 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/03 21:36:13 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_token	*init_node()
 	if (!first_node)
 	{
 		ERR
-		printf(RED"first_node fail\n"WHT);//-
+		// printf(RED"first_node fail\n"WHT);//-
 		exit(EXIT_FAILURE);
 	}
 	first_node->name = "100"; //-
@@ -39,7 +39,7 @@ t_token	*create_new_node(t_token *existing_node)
 	if (!new_node)
 	{
 		ERR
-		printf(RED"new_node fail\n"WHT);//-
+		// printf(RED"new_node fail\n"WHT);//-
 		exit(EXIT_FAILURE);
 	}
 	existing_node->next = new_node;
@@ -48,6 +48,6 @@ t_token	*create_new_node(t_token *existing_node)
 	new_node->first = existing_node->first;
 	new_node->prev = existing_node;
 	new_node->next = NULL;
-	printf(RED"new_node create\n"WHT);//-
+	// printf(RED"new_node create\n"WHT);//-
 	return (new_node);
 }

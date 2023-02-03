@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 14:32:32 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/01 22:33:00 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/03 21:16:34 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ char	*ft_strndup(char *buffer, size_t n)
 	i = 0;
 	if (buffer)
 	{
-		str = malloc(sizeof(char) * (ft_strlen(buffer) + 1));
+		str = malloc(sizeof(char) * n + 1);
 		if (!str)
 			return (NULL);
-		while (*(buffer + i) && i < n)
+		while (*(buffer + i) && i <= n)
 		{
 			*(str + i) = *(buffer + i);
 			i++;

@@ -6,13 +6,13 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 08:56:16 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/02 10:21:53 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/02 14:16:42 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-short	is_quote(char charater)
+int16_t	is_quote(int8_t charater)
 {
 	if (charater == '\'')
 		return (QUOTE);
@@ -23,21 +23,21 @@ short	is_quote(char charater)
 	return (0);
 }
 
-char	*get_quoting(int quote_type, char *quote_start)
+char	*get_quoting(int16_t quote_type, char *quote_start)
 {
-	int		offset_in_quote;
+	int16_t		offset_in_quote;
 	char	*token;
 
 	offset_in_quote = 1;
 	while (quote_start[offset_in_quote] && ((is_quote(quote_start[offset_in_quote]) != quote_type)))
 		offset_in_quote++;
-	token = extraction_from_line(offset_in_quote + 1, quote_start);
+	token = extraction_from_line(offset_in_quote, quote_start);
 	return (token);
 }
 
-int	full_quote(int offset_in_line, char *line, t_token *token_node)
+int32_t	full_quote(int32_t offset_in_line, char *line, t_token *token_node)
 {
-	int		quote_type;
+	int16_t		quote_type;
 
 	quote_type = is_quote(line[offset_in_line]);
 	token_node->name = get_quoting(quote_type, line + offset_in_line);

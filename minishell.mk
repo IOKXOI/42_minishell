@@ -13,6 +13,8 @@ SRCS := 									\
 		exit.c								\
 		linked_list.c						\
 		pt_quotes.c							\
+		p_tokenisation.c 					\
+		pt_exploration.c					\
 		\
 		utils/ft_strdup.c					\
 		utils/ft_strndup.c					\
