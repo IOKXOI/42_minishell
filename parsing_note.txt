@@ -1,0 +1,22 @@
+
+"bash$ ls -l -a > fichier1 -l > fichier2 | cat"
+
+Node(ls) -> Node(pipe) -> Node(cat)
+
+enum {
+	PIPE,
+	COMMAND,
+	
+}
+
+
+struct Node
+{
+	enum type = COMMAND;
+	char *command_name = "/bin/ls";
+	char **cmd = {"/bin/ls", "-l", "-a", NULL};
+	
+	int number_of_redirections = 2; 
+	char **files_to_redirect_to = {"fichier1, fichier2"};
+}
+

@@ -1,0 +1,149 @@
+plan: token -> analyse ->    -> expend -> exec
+
+
+1) Token
+
+t_list l_token {
+
+	int     token(token enum);
+	char    *cmd;
+	*next;
+}
+
+exemple: CMD -> ARG -> PIPE -> HERE_DOC -> LIMITOR
+
+ex :  >> a >> b >> c cat < new | ls 
+
+
+enum token {
+
+	CMD;
+	ARG;
+	PIPE;
+
+	REDIR_IN "<";
+	IN_FILE;
+
+	REDIR_OUT ">";
+	OUT_FILE;
+
+	REDIR_OUT_APPEND ">>";
+	OUT_FILE_APPEND;
+
+	HERE_DOC "<<";
+	LIMITOR;
+}
+
+-> split les commandes + include everything found inside simple/double quote 
+
+-> evrything right next to a directory is considered as an argument
+
+
+
+2) Analyse
+
+	- Syntax Error: || + pipe en entree
+					all_redir + all_redir
+					all_redir + pipe
+
+					unclosed quote -> every quotes must be closed !!!!
+						-> write quote if "" before quote;
+
+
+	bool check 
+		no_error? true : false;
+
+
+
+
+
+
+3) Parsing
+
+- create the linked of data
+
+ex ->	(ls -l -a = ls -la) to group into 1 cmd only
+   ->	"$ENV" = cb
+   ->	'$ENV' = $ENV
+   ->	"'$ENV''" = '$ENV''
+   ->	echo '' = \n
+   ->	
+
+struct Global {
+
+	t_list  *env;
+	int     nb_of_cmd
+}
+
+struct iords
+{
+	bool here_doc; = false
+	bool simple_redir = false
+	char *filename; = "b"
+	iords *next;
+}
+
+open(OREADONLY | OCREATE)
+
+
+s_cmd   cmd
+{
+	char		*cmd_name;
+	char		**options;
+
+	int			fd_in;
+	char		**fd_in_name;
+	
+	int			fd_out;
+	char		**fd_out_name;
+	t_token		token  
+
+	int			here_doc;
+	char		**limiter;
+}   t_cmd;
+
+
+
+
+
+
+
+
+
+
+struct Node
+{
+	enum	cmd_type = COMMAND;
+	char	*command_name = "/bin/ls";
+	char	**cmd = {"/bin/ls", "-l", "-a", NULL};
+	int     *in;
+	int     *out; 
+	|
+	|
+	->      set the last in/out redirection from the command line as the out/in file
+				ex: cat a < c < d < f > g > h
+				d < in  |  h < out 
+
+				ex2: cat a < c < d < f > g > h | echo hello
+				in this case create the pipe, he'll wait for the input however h is
+				considered as the outfile so the programm will wait and hello won t
+				be printed
+		
+	->      find in the command line what's the input and the output knopwiing that the
+			int put and the output can be set wherever in the command
+				ex : cat >> a >> b >> c < new 
+
+				ex2: echo llll >> b < a 
+
+	enum	redir_token
+	char	**limitor
+
+	ex: cat < a << e > b > c << eof to test to see if the whole command is written in the file c or not
+	if succession of here_doc only write inside the outfile what were written during the last here doc
+}
+
+	remove les quotes -> fill the struct -> expand to fill the struct
+
+
+	check export unset with simple redir: should clear the file ("\0")
+}

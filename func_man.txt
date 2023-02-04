@@ -1,0 +1,2 @@
+getcwd -> return the path of the current directory
+chdir -> change directory
