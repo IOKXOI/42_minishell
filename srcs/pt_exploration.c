@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 14:27:59 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/03 20:36:40 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/05 19:11:15 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,22 @@
 // 	offset_in_token = 0;
 // 	while (token_list && offset_in_token <= 0xffff)
 // 	{
-// 		while(offset_in_token <= 0xffff && is_space(token_list->name[offset_in_token]))
+// 		while(offset_in_token <= 0xffff
+//	q		&& pt_is_space(token_list->name[offset_in_token]))
 // 			offset_in_token++;
-// 		token_list->type = is_special(token_list->name[offset_in_token]);
+// 		token_list->type = pt_is_special(token_list->name[offset_in_token]);
 // 		 token_list->type 
 // 		token_list = token_list->next;
 // 	}
 // }
 
-// // void	parse_error_checker(t_token *token_list)
+// // void	pt_parse_error_checker(t_token *token_list)
 // // {
-	
+
 // // }
 
 // void	explore_token_list(t_token *token_list)
 // {
 // 	give_token_type(token_list->first);
-// 	//parse_error_checker(token_list->first);
+// 	//pt_parse_error_checker(token_list->first);
 // }

@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 14:24:32 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/03 21:38:30 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/05 19:39:08 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,10 @@
 void	print_node(t_token *token)
 {
 	printf(YLW"token:\nname = %s\n\
+	first = %p\n\
 	type = %d\n\
 	prev = %p\n\
-	next = %p\n", token->name, token->type, token->prev, token->next);
+	next = %p\n", token->name, token->first, token->type, token->prev, token->next);
 	if (token->next)
 	{
 		printf("next token = %s\n", token->next->name);
