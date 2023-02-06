@@ -2,6 +2,7 @@
 	"files.associations": {
 		"STR.C": "cpp",
 		"minishell.h": "c",
-		"compare": "c"
+		"compare": "c",
+		"type_traits": "c"
 	}
 }

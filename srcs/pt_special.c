@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 01:18:10 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/05 19:11:15 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/06 17:26:50 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ int16_t	pt_is_special(int8_t character)
 		return (OUT_FILE);
 	if (character == '|')
 		return (PIPE);
-	if (character == '\'' || character == '"')
-		return (QUOTES);
+	//if (character == '\'' || character == '"')
+	//	return (QUOTES);
 	return (0);
 }
 

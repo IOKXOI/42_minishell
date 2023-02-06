@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 14:06:56 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/05 22:41:37 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/06 17:30:30 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 int32_t	pt_get_token(int32_t offset_in_line, char *line, t_token *token_node)
 {
 	token_node->type = pt_is_special(line[offset_in_line]);
-	if (token_node->type == QUOTES)
-		return (pt_full_quote(offset_in_line, line, token_node));
-	else if (token_node->type == SPACE_BIS)
+//	if (token_node->type == QUOTES)
+//		return (pt_full_quote(offset_in_line, line, token_node));
+	if (token_node->type == SPACE_BIS)
 		return (1);
 	else if (token_node->type)
 		return (ft_strlen(get_special(offset_in_line, line, token_node)));
@@ -55,7 +55,7 @@ t_token	*pt_tokenization(char *line)
 			pt_free_list(token_list->first);
 			exit (1);
 		}
-		if (*line && token_list->name)
+		else if (*line && token_list->name)
 		{
 			token_list->next = pt_create_new_node(token_list);
 			token_list = token_list->next;
