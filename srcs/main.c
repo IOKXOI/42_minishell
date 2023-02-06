@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 05:01:04 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/05 19:56:55 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/06 16:57:51 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int32_t	main(void)
 {
 	char	*rline;
 
+	rl_outstream = stderr;
 	while (1)
 	{
 		rline = readline(RED "minishell> ");
