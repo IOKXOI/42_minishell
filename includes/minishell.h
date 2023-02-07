@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 20:18:54 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/05 19:13:03 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/07 03:11:33 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,8 @@
 
 enum e_special {
 	SPACE_BIS = 1,
-	QUOTE,
-	GRAVE_QUOTE,
-	QUOTES,
+	SINGLE_Q,
+	DOUBLE_Q,
 	HERE_DOC,
 	IN_FILE,
 	OUT_FILE,
@@ -56,13 +55,27 @@ enum e_special {
 	LIMITER,
 };
 
+enum e_token_type {
+	START,
+	CMD, // after start, after file, after pipe (if not recognized), after limiter
+	PIPE,
+	HERE_DOC,
+	REDIR_IN,
+	REDIR_OUT,
+	REDIR_APPEND,
+	FILE, // after redir 
+	LIMITER, // after here_doc
+	WORD, //after command, after word, after here_doc
+	END,
+}
+
 // ========================================================================= //
 //                                 Structure                                 //
 // ========================================================================= //
 
 typedef struct s_token {
-	int				type;
-	char			*name;
+	int				type; // enum e_token_type
+	char			*name; //content
 	struct s_token	*first;
 	struct s_token	*prev;
 	struct s_token	*next;
@@ -147,6 +160,9 @@ and try to catch the end of quote Else : The first char isn't a quote but  is
 special, so create a token for it. If noo speciaal, extract the part of line 
 on a token*/
 int32_t	pt_get_token(int32_t offset_in_line, char *line, t_token *token_node);
+
+//-----------------------------ptt_typing_token.c --------------------------.//
+void	ptt_typing_token(t_token *token_list);
 // ========================================================================= //
 //                                    Exec                                   //
 // ========================================================================= //

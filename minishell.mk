@@ -20,3 +20,4 @@ SRCS := 									\
 		pt_special.c						\
 		pt_exploration.c					\
 		pl_lexer.c							\
+		ptt_typing_token.c					\
