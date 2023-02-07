@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 08:56:16 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/04 01:17:40 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/07 07:18:45 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,9 @@
 int16_t	pt_is_quote(int8_t charater)
 {
 	if (charater == '\'')
-		return (QUOTE);
+		return (SINGLE_Q);
 	if (charater == '"')
-		return (QUOTES);
-	if (charater == '`')
-		return (GRAVE_QUOTE);
+		return (DOUBLE_Q);
 	return (0);
 }
 

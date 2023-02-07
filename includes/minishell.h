@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 20:18:54 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/07 03:11:33 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/07 07:17:48 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,37 +45,33 @@ enum e_special {
 	SPACE_BIS = 1,
 	SINGLE_Q,
 	DOUBLE_Q,
-	HERE_DOC,
 	IN_FILE,
 	OUT_FILE,
-	OUT_FILE_APPEND,
 	PIPE,
-	CMD,
-	ARG,
-	LIMITER,
+	WORD,
 };
 
 enum e_token_type {
 	START,
 	CMD, // after start, after file, after pipe (if not recognized), after limiter
-	PIPE,
 	HERE_DOC,
 	REDIR_IN,
 	REDIR_OUT,
 	REDIR_APPEND,
-	FILE, // after redir 
+	OUT_FILE_APPEND,
+	FILES, // after redir 
 	LIMITER, // after here_doc
-	WORD, //after command, after word, after here_doc
+//	WORD, //after command, after word, after here_doc
 	END,
-}
+};
 
 // ========================================================================= //
 //                                 Structure                                 //
 // ========================================================================= //
 
 typedef struct s_token {
-	int				type; // enum e_token_type
-	char			*name; //content
+	int				type;// enum e_token_type
+	char			*name;//content
 	struct s_token	*first;
 	struct s_token	*prev;
 	struct s_token	*next;
