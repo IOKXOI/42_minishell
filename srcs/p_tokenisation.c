@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 14:06:56 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/08 07:01:07 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/08 08:31:22 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,12 @@ t_token	*pt_tokenization(char *line)
 			pt_free_list(token_list->first);
 			exit (1);
 		}
-		else if (*line && token_list->name)
+		else if (token_list->name)
 		{
 			token_list->next = pt_create_new_node(token_list);
 			token_list = token_list->next;
 		}
+		token_list->type = END;
 	}
 	return (token_list->first);
 }
