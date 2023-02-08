@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 14:06:56 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/08 09:29:08 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/08 10:17:31 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,11 @@ t_token	*pt_tokenization(char *line)
 	t_token		*token_list;
 
 	token_list = pt_init_node();
-	token_list->name = ft_strdup(" ");
-	token_list->next = pt_create_new_node(token_list);
-	token_list = token_list->next;
 	while (*line)
 	{
 		int i = 0;
-		printf("%d\n", i++);
 		line = pt_token_extracting(line, token_list);
+		printf("%d\n", i++);
 		if (!line)
 		{
 			pt_free_list(token_list->first);
