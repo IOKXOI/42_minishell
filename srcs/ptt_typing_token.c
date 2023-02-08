@@ -6,12 +6,13 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 00:03:17 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/08 02:03:30 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/08 03:40:54 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*fusionning two nodes and give a new type*/
 t_token	*fusion_node(enum e_token_type type, t_token *token, t_token *next)
 {
 	t_token	*new;
@@ -36,19 +37,21 @@ t_token	*fusion_node(enum e_token_type type, t_token *token, t_token *next)
 	return (new);
 }
 
+/*fusionning two nodes redir in to form HERE_DOC*/
 void	ptt_redir_in(t_token *token)
 {
 	if (token->next->type == REDIR_IN)
 		token = fusion_node(HERE_DOC, token, token->next);
 }
 
+/*fusionning two nodes redir out to form REDIR_APPEN*/
 void	ptt_redir_out(t_token *token)
 {
 	if (token->next->type == REDIR_OUT)
 		token = fusion_node(REDIR_APPEND, token, token->next);
 }
 
-/*loop on list to regroup */
+/*loop on list to regroup tokens between them to form an instruction*/
 int8_t ptt_fusonning_double_redir(t_token *token)
 {
 	while (token)
@@ -62,6 +65,7 @@ int8_t ptt_fusonning_double_redir(t_token *token)
 	return (1);
 }
 
+/*give a type to a token bylooking precedent token*/
 void	ptt_typing_word_token(t_token *token)
 {
 	if (token->prev->type == START)
@@ -80,6 +84,8 @@ void	ptt_typing_word_token(t_token *token)
 		token->type = OUT_FILE;
 }
 
+/*loop on the token_list to reconize HERE_DOC and REDIR_APPEN,
+then loop on the list to apply the function of giving type to words*/
 void	ptt_typing_token(t_token *token_list)
 {
 	ptt_fusonning_double_redir(token_list);
