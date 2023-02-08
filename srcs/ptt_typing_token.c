@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 00:03:17 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/08 07:22:47 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/08 07:45:52 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,18 +68,16 @@ int8_t ptt_fusonning_double_redir(t_token *token)
 /*give a type to a token bylooking precedent token*/
 void	ptt_typing_word_token(t_token *token)
 {
-	enum e_type	type;
+	enum e_type	v_type;
 
-	type = token->prev->type;
-	if (type == START || type == PIPE || type == IN_FILE || type == OUT_FILE )
+	v_type = token->prev->type;
+	if (v_type == START || v_type == PIPE || v_type == IN_FILE || v_type == OUT_FILE || v_type == LIMITER)
 		token->type = CMD;
-	else if (token->prev->type == LIMITER)
-		token->type = CMD;
-	else if (token->prev->type == HERE_DOC)
+	else if (v_type == HERE_DOC)
 		token->type = LIMITER;
-	else if (token->prev->type == REDIR_IN)
+	else if (v_type == REDIR_IN)
 		token->type = IN_FILE;
-	else if (token->prev->type == REDIR_OUT || token->prev->type == REDIR_APPEND)
+	else if (v_type == REDIR_OUT || v_type == REDIR_APPEND)
 		token->type = OUT_FILE;
 }
 
@@ -91,10 +89,7 @@ void	ptt_typing_token(t_token *token_list)
 	while (token_list)
 	{
 		if (token_list->type == WORD)
-		{
-			// printf("jujupute\n");
 			ptt_typing_word_token(token_list);
-		}
 		token_list = token_list->next;
 	}
 }
