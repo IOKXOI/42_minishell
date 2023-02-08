@@ -1,1 +1,2 @@
-[?2004h[31mminishell> <>^C[?2004l
+echo coucou > a > b > c > d
+ echo -n caca caca | echo
