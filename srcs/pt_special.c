@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 01:18:10 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/08 05:37:32 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/08 06:54:53 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ bool	pt_is_space(int8_t character)
 	return (0);
 }
 
-int16_t	pt_is_special(int8_t character)
+enum e_type	pt_is_special(int8_t character)
 {
 	if (pt_is_space(character))
 		return (SPACE_BIS);

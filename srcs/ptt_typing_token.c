@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 00:03:17 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/08 06:40:08 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/08 07:22:47 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,10 @@ int8_t ptt_fusonning_double_redir(t_token *token)
 /*give a type to a token bylooking precedent token*/
 void	ptt_typing_word_token(t_token *token)
 {
-	if (token->prev->type == START)
-		token->type = CMD;
-	else if (token->prev->type == PIPE)
-		token->type = CMD;
-	else if (token->prev->type == IN_FILE || token->prev->type == OUT_FILE)
+	enum e_type	type;
+
+	type = token->prev->type;
+	if (type == START || type == PIPE || type == IN_FILE || type == OUT_FILE )
 		token->type = CMD;
 	else if (token->prev->type == LIMITER)
 		token->type = CMD;
@@ -88,11 +87,14 @@ void	ptt_typing_word_token(t_token *token)
 then loop on the list to apply the function of giving type to words*/
 void	ptt_typing_token(t_token *token_list)
 {
-	//ptt_fusonning_double_redir(token_list);
+	ptt_fusonning_double_redir(token_list);
 	while (token_list)
 	{
-		//if (token_list->type)
-			//ptt_typing_word_token(token_list);
+		if (token_list->type == WORD)
+		{
+			// printf("jujupute\n");
+			ptt_typing_word_token(token_list);
+		}
 		token_list = token_list->next;
 	}
 }

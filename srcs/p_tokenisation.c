@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 14:06:56 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/08 06:37:36 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/08 07:01:07 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ t_token	*pt_tokenization(char *line)
 	t_token		*token_list;
 
 	token_list = pt_init_node();
+	token_list->next = pt_create_new_node(token_list);
 	token_list = token_list->next;
 	while (*line)
 	{

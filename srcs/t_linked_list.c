@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 13:06:14 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/08 06:42:52 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/08 07:01:57 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_token	*pt_init_node(void)
 	first_node = malloc(sizeof(t_token));
 	if (!first_node)
 		return (NULL);
-	//first_node->type = START;
+	first_node->type = START;
 	first_node->first = first_node;
 	first_node->prev = NULL;
 	first_node->next = NULL;

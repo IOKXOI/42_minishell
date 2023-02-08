@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 20:18:54 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/08 06:39:13 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/08 07:20:26 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@
 // ========================================================================= //
 
 enum e_type {
-	START,
 	WORD,
+	START,
 	SPACE_BIS,
 	SINGLE_Q,
 	DOUBLE_Q,
@@ -67,7 +67,7 @@ enum e_type {
 // ========================================================================= //
 
 typedef struct s_token {
-	enum e_type		type;// enum e_token_type
+	enum e_type		type;
 	char			*name;//content
 	struct s_token	*first;
 	struct s_token	*prev;
@@ -83,9 +83,6 @@ t_token	*pt_tokenization(char *line);
 void	explore_token_list(t_token *token);
 /*Check if characer is a space*/
 bool	pt_is_space(int8_t character);
-
-/*Check if charactere is special, if isn't return (0).*/
-int16_t	pt_is_special(int8_t character);
 
 /*Check if the character is one of quote. If it is, return an id to 
 identify witch type of quote is it, to identify witch type of quote 
@@ -128,7 +125,7 @@ t_token	*pt_create_new_node(t_token *existing_node);
 bool	pt_is_space(int8_t character);
 
 /*check if character is speical char*/
-int16_t	pt_is_special(int8_t character);
+enum	e_type	pt_is_special(int8_t character);
 
 /*extract the special from the line*/
 char	*get_special(int32_t offsett_in_line, char *line, t_token *token_node);
