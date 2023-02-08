@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 20:18:54 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/08 04:00:01 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/08 05:21:23 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ enum e_special {
 	WORD,
 };
 
-enum e_token_type {
+enum e_type {
 	START,
 	CMD, // after start, after file, after pipe (if not recognized), after limiter
 	HERE_DOC,
@@ -70,7 +70,7 @@ enum e_token_type {
 // ========================================================================= //
 
 typedef struct s_token {
-	int				type;// enum e_token_type
+	enum e_type		type;// enum e_token_type
 	char			*name;//content
 	struct s_token	*first;
 	struct s_token	*prev;
