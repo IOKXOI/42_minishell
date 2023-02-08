@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 00:03:17 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/08 05:43:50 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/08 06:09:10 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	ptt_typing_token(t_token *token_list)
 {
 	ptt_fusonning_double_redir(token_list);
 	while (token_list)
-	{
+	{ //segfault sur le prev
 		if (token_list->type == WORD)
 			ptt_typing_word_token(token_list);
 		token_list = token_list->next;
