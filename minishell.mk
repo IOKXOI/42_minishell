@@ -12,6 +12,7 @@ SRCS := 									\
 		utils/ft_strlen.c					\
 		utils/ft_strdup.c					\
 		utils/ft_strndup.c					\
+		utils/ft_strjoin.c					\
 		test.c								\
 		exit.c								\
 		t_linked_list.c						\

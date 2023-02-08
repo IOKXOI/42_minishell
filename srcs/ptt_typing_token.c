@@ -6,13 +6,13 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 00:03:17 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/07 07:19:41 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/08 02:03:30 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token	*fusion_node(enum e_special type, t_token *token, t_token *next)
+t_token	*fusion_node(enum e_token_type type, t_token *token, t_token *next)
 {
 	t_token	*new;
 
@@ -39,7 +39,7 @@ t_token	*fusion_node(enum e_special type, t_token *token, t_token *next)
 void	ptt_redir_in(t_token *token)
 {
 	if (token->next->type == REDIR_IN)
-		token = fusion_node(HEREDOC, token, token->next);
+		token = fusion_node(HERE_DOC, token, token->next);
 }
 
 void	ptt_redir_out(t_token *token)
@@ -48,15 +48,16 @@ void	ptt_redir_out(t_token *token)
 		token = fusion_node(REDIR_APPEND, token, token->next);
 }
 
-int8_t ptt_fusonning_double_redir(token_list)
+/*loop on list to regroup */
+int8_t ptt_fusonning_double_redir(t_token *token)
 {
-	while (token_list)
+	while (token)
 	{
-		if (token_list->type == REDIR_IN)
-			ptt_redir_in(token_list);
-		else if (token_list->type == REDIR_OUT)
-			ptt_redir_out(token_list);
-		token_list = token_list->next;
+		if (token->type == REDIR_IN)
+			ptt_redir_in(token);
+		else if (token->type == REDIR_OUT)
+			ptt_redir_out(token);
+		token = token->next;
 	}
 	return (1);
 }
@@ -71,7 +72,7 @@ void	ptt_typing_word_token(t_token *token)
 		token->type = CMD;
 	else if (token->prev->type == LIMITER)
 		token->type = CMD;
-	else if (token->prev->type == HEREDOC)
+	else if (token->prev->type == HERE_DOC)
 		token->type = LIMITER;
 	else if (token->prev->type == REDIR_IN)
 		token->type = IN_FILE;

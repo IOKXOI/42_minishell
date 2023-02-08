@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 14:24:32 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/06 17:48:45 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/08 02:01:38 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@ char *get_tok_name(enum e_special type)
 		return ("IN_FILE");
 	else if (type == OUT_FILE)
 		return ("OUT_FILE");
+	else if (type == SINGLE_Q)
+		return ("SINGLE_Q");
+	else if (type == DOUBLE_Q)
+		return ("DOUBLE_Q");
 	else 
 		return ("UNKNOWN");
 }

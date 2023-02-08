@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 01:18:10 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/07 07:16:41 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/08 02:00:02 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,16 @@ int16_t	pt_is_special(int8_t character)
 {
 	if (pt_is_space(character))
 		return (SPACE_BIS);
-	if (character == '<')
+	else if (character == '<')
 		return (IN_FILE);
-	if (character == '>')
+	else if (character == '>')
 		return (OUT_FILE);
-	if (character == '|')
+	else if (character == '|')
 		return (PIPE);
-	//if (character == '\'' || character == '"')
-	//	return (QUOTES);
+	else if (character == '\'')
+		return (SINGLE_Q);
+	else if (character == '"')
+		return (DOUBLE_Q);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 20:18:54 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/07 07:17:48 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/08 01:53:57 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,11 +167,12 @@ void	ptt_typing_token(t_token *token_list);
 //                                    Utils                                  //
 // ========================================================================= //
 
-char	*ft_strdup(const char *str);
-char	*ft_strndup(char *buffer, size_t n);
-size_t	ft_strlen(const char *s);
 void	*pt_free_list(t_token *list);
 void	free_node(t_token *node);
+char	*ft_strdup(const char *str);
+char	*ft_strndup(char *buffer, size_t n);
+char	*ft_strjoin(char const *s1, char const *s2);
+size_t	ft_strlen(const char *s);
 
 // ========================================================================= //
 //                                    Test                                   //
