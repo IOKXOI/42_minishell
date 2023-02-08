@@ -1,2 +1,2 @@
 echo coucou > a > b > c > d
- echo -n caca caca | echo
+ echo -n caca caca | ech
