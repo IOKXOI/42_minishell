@@ -14,11 +14,12 @@ SRCS := 									\
 		utils/ft_strndup.c					\
 		utils/ft_strjoin.c					\
 		test.c								\
+		\
 		exit.c								\
 		t_linked_list.c						\
 		p_tokenisation.c 					\
 		pt_quotes.c							\
 		pt_special.c						\
 		pt_exploration.c					\
-		pl_lexer.c							\
 		ptt_typing_token.c					\
+		pl_lexer.c							\

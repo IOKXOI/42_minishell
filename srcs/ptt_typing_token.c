@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 00:03:17 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/08 03:40:54 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/08 04:16:07 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,14 @@ t_token	*fusion_node(enum e_token_type type, t_token *token, t_token *next)
 /*fusionning two nodes redir in to form HERE_DOC*/
 void	ptt_redir_in(t_token *token)
 {
-	if (token->next->type == REDIR_IN)
+	if (token->next && token->next->type == REDIR_IN)
 		token = fusion_node(HERE_DOC, token, token->next);
 }
 
 /*fusionning two nodes redir out to form REDIR_APPEN*/
 void	ptt_redir_out(t_token *token)
 {
-	if (token->next->type == REDIR_OUT)
+	if (token->next && token->next->type == REDIR_OUT)
 		token = fusion_node(REDIR_APPEND, token, token->next);
 }
 
@@ -91,7 +91,7 @@ void	ptt_typing_token(t_token *token_list)
 	ptt_fusonning_double_redir(token_list);
 	while (token_list)
 	{
-		if (token_list->type == WORD)
+		if (token_list->type)
 			ptt_typing_word_token(token_list);
 		token_list = token_list->next;
 	}
