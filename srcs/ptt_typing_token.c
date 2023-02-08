@@ -6,14 +6,14 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 00:03:17 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/08 04:16:07 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/08 05:43:50 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*fusionning two nodes and give a new type*/
-t_token	*fusion_node(enum e_token_type type, t_token *token, t_token *next)
+t_token	*fusion_node(enum e_type type, t_token *token, t_token *next)
 {
 	t_token	*new;
 
@@ -91,7 +91,7 @@ void	ptt_typing_token(t_token *token_list)
 	ptt_fusonning_double_redir(token_list);
 	while (token_list)
 	{
-		if (token_list->type)
+		if (token_list->type == WORD)
 			ptt_typing_word_token(token_list);
 		token_list = token_list->next;
 	}

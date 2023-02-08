@@ -6,13 +6,13 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 14:24:32 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/08 05:00:24 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/08 05:31:38 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char *get_tok_name(enum e_special type)
+char *get_tok_name(enum e_type type)
 {
 	if (type == PIPE)
 		return ("PIPE");
@@ -24,6 +24,28 @@ char *get_tok_name(enum e_special type)
 		return ("SINGLE_Q");
 	else if (type == DOUBLE_Q)
 		return ("DOUBLE_Q");
+	else if (type == HERE_DOC)
+		return ("HERE_DOC");
+	else if (type == LIMITER)
+		return ("LIMITER");
+	else if (type == REDIR_IN)
+		return ("REDIR_IN");
+	else if (type == REDIR_OUT)
+		return ("REDIR_OUT");
+	else if (type == REDIR_APPEND)
+		return ("REDIR_APPEND");
+	else if (type == OUT_FILE_APPEND)
+		return ("OUT_FILE_APPEND");
+	else if (type == FILES)
+		return ("FILES");
+	else if (type == WORD)
+		return ("WORD");
+	else if (type == CMD)
+		return ("CMD");
+	else if (type == START)
+		return ("START");
+	else if (type == SPACE_BIS)
+		return ("SPACE_BIS");
 	else 
 		return ("UNKNOWN");
 }

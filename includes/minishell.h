@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 20:18:54 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/08 05:21:23 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/08 05:43:39 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,26 +41,23 @@
 //                                    Enum                                   //
 // ========================================================================= //
 
-enum e_special {
-	SPACE_BIS = 1,
+enum e_type {
+	WORD,
+	START,
+	SPACE_BIS,
 	SINGLE_Q,
 	DOUBLE_Q,
-	IN_FILE,
-	OUT_FILE,
-	PIPE,
-	WORD,
-};
-
-enum e_type {
-	START,
 	CMD, // after start, after file, after pipe (if not recognized), after limiter
 	HERE_DOC,
+	LIMITER, // after here_doc
 	REDIR_IN,
+	IN_FILE,
 	REDIR_OUT,
 	REDIR_APPEND,
 	OUT_FILE_APPEND,
+	OUT_FILE,
 	FILES, // after redir 
-	LIMITER, // after here_doc
+	PIPE,
 //	WORD, //after command, after word, after here_doc
 	END,
 };
