@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 05:01:04 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/08 05:07:06 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/08 06:42:14 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ bool	pt_parse(char *line)
 	t_token	*token_list;
 
 	token_list = pt_tokenization(line);
-	ptt_typing_token(token_list);
+	//ptt_typing_token(token_list);
 	print_all_token(token_list);
 	pt_free_list(token_list->first);
 	return (0);
