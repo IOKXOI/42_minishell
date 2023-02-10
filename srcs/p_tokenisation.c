@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 14:06:56 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/08 10:35:38 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/09 03:56:31 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ t_token	*pt_tokenization(char *line)
 	while (*line)
 	{
 		line = pt_token_extracting(line, token_list);
+		printf("name = %s\n", token_list->name);
 		if (!line)
 		{
 			pt_free_list(token_list->first);
