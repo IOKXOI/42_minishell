@@ -6,7 +6,11 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 13:06:14 by sydauria          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/02/08 10:37:18 by sydauria         ###   ########.fr       */
+=======
+/*   Updated: 2023/02/08 10:15:40 by sydauria         ###   ########.fr       */
+>>>>>>> a618296f299fe7bfecea2710cc4d1bc174e0ce71
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +24,11 @@ t_token	*pt_init_node(void)
 	if (!first_node)
 		return (NULL);
 	first_node->type = START;
+<<<<<<< HEAD
 	first_node->name = ft_strdup("START");
+=======
+	first_node->name = NULL;
+>>>>>>> a618296f299fe7bfecea2710cc4d1bc174e0ce71
 	first_node->first = first_node;
 	first_node->prev = NULL;
 	first_node->next = NULL;

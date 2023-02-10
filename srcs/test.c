@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 14:24:32 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/08 07:11:44 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/08 09:18:55 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ char *get_tok_name(enum e_type type)
 		return ("CMD");
 	else if (type == START)
 		return ("START");
+	else if (type == END)
+		return ("END");
 	else if (type == SPACE_BIS)
 		return ("SPACE_BIS");
 	else 
