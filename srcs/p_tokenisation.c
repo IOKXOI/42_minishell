@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 14:06:56 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/10 01:53:05 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/11 16:59:29 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,10 @@ char	*pt_token_extracting(char *line, t_token *token)
 	//if (pt_is_space(line[offset_in_line]))
 	//	offset_in_line += pt_skip_spaces(line + offset_in_line);
 	offset_in_line += pt_get_token(offset_in_line, line, token);
+	if (!line[offset_in_line + 1])
+	{
+		return (ft_strdup(""));
+	}
 	remainder = ft_strdup(line + offset_in_line);
 	free(line);
 	return (remainder);
@@ -51,7 +55,6 @@ t_token	*pt_tokenization(char *line)
 	token_list = token_list->next;
 	while (*line)
 	{
-		int i = 0;
 		line = pt_token_extracting(line, token_list);
 		if (!line)
 		{
@@ -66,5 +69,6 @@ t_token	*pt_tokenization(char *line)
 		token_list->type = END;
 		token_list->name = NULL;
 	}
+	free(line);
 	return (token_list->first);
 }

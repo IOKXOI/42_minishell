@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 01:18:10 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/08 06:54:53 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/10 03:30:01 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ enum e_type	pt_is_special(int8_t character)
 
 char	*get_special(int32_t offsett_in_line, char *line, t_token *token_node)
 {
-	token_node->name = ft_strndup(line, offsett_in_line);
+	token_node->name = pt_extraction_from_line(offsett_in_line, line);
 	if (!token_node->name)
 	{
 		pt_free_list(token_node->first);
