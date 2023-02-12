@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 08:56:16 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/07 07:18:45 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/13 00:43:43 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int32_t	pt_full_quote(int32_t offset_in_line, char *line, t_token *token_node)
 	{
 		pt_free_list(token_node->first);
 		free(line);
-		printf("Error: malloc failed");
+		printf("Error: malloc failed\n");
 		exit(EXIT_FAILURE);
 	}
 	return (offset_in_line += ft_strlen(token_node->name));

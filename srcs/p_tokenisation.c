@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 14:06:56 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/11 16:59:29 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/13 00:42:49 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@ char	*pt_token_extracting(char *line, t_token *token)
 	//if (pt_is_space(line[offset_in_line]))
 	//	offset_in_line += pt_skip_spaces(line + offset_in_line);
 	offset_in_line += pt_get_token(offset_in_line, line, token);
-	if (!line[offset_in_line + 1])
-	{
-		return (ft_strdup(""));
-	}
-	remainder = ft_strdup(line + offset_in_line);
+	// if (!line[offset_in_line + 1])
+	// {
+	// 	return (ft_strdup(""));
+	// }
+	remainder = ft_strndup(line + offset_in_line, ft_strlen(line + offset_in_line));
 	free(line);
 	return (remainder);
 }

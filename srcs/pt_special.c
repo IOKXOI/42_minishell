@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 01:18:10 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/10 03:30:01 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/13 00:43:51 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*get_special(int32_t offsett_in_line, char *line, t_token *token_node)
 	{
 		pt_free_list(token_node->first);
 		free(line);
-		printf("Error: malloc failed");
+		printf("Error: malloc failed\n");
 		return (NULL);
 	}
 	return (token_node->name);
@@ -58,6 +58,8 @@ int16_t	pt_skip_until_special_is_next(char *line)
 		return (offset_in_line);
 	while (line[offset_in_line] && !pt_is_special(line[offset_in_line + 1]))
 		offset_in_line++;
+	if (!line[offset_in_line])
+		return (offset_in_line - 1);
 	return (offset_in_line);
 }
 
