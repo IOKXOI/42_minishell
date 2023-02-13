@@ -77,10 +77,11 @@ struct Global {
 
 struct iords
 {
+	// only keep the content of the last limeter
 	bool here_doc; = false
 	bool simple_redir = false
 	char *filename; = "b"
-	iords *next;
+	char		**limiter;
 }
 
 open(OREADONLY | OCREATE)
@@ -91,15 +92,12 @@ s_cmd   cmd
 	char		*cmd_name;
 	char		**options;
 
-	int			fd_in;
+	int			in_count;
 	char		**fd_in_name;
 	
-	int			fd_out;
+	int			out_count;
 	char		**fd_out_name;
-	t_token		token  
 
-	int			here_doc;
-	char		**limiter;
 }   t_cmd;
 
 

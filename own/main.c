@@ -105,45 +105,6 @@ int		ft_arg_count(char **av)
 
 // ----------------------------------------------------------------------------
 
-// -------------------------- Substr Utils ------------------------------------
-
-size_t	ft_create_len(char *str, unsigned int start, size_t len)
-{
-	size_t	count;
-
-	if (start >= ft_strlen(str))
-		return (0);
-	count = 0;
-	while (str[start] && count < len)
-	{
-		count++;
-		start++;
-	}
-	return (count);
-}
-
-char	*ft_substr(char const *s, unsigned int start, size_t len)
-{
-	char	*str;
-	size_t	i;
-	size_t	l;
-
-	if (!s)
-		return (NULL);
-	l = ft_create_len((char *)s, start, len);
-	str = malloc(sizeof(char) * (l + 1));
-	if (!str)
-		return (NULL);
-	i = 0;
-	while (l--)
-		str[i++] = (char)s[start++];
-	str[i] = '\0';
-	return (str);
-}
-
-
-// ----------------------------------------------------------------------------
-
 // --------------------- Set Env Linked List ----------------------------------
 
 char	*set_env_var_name(char *env_line)
@@ -666,53 +627,12 @@ char	*expended_env_var(t_env **env_lst, char *arg)
 	return (NULL);
 }
 
-char	*d_quotes_expend_env_var(t_env **env_lst, char *arg)
-{
-	t_env	*env_node;
-	char	*tmp;
-	int		len;
-	int		i;
-	int		j;
-
-	env_node = *env_lst;
-	if (arg[0] == '"' && arg[1] == '$')
-	{
-		i = 2;
-		while (arg[i] != '"' || arg[i] != ' ')
-		{
-
-			printf("%c\n", arg[i]);
-			i++;
-		}
-		printf("HERE\n");
-		tmp = malloc(sizeof(char) + i - 1);
-		//free;
-		i = 2;
-		j = 0;
-		while (j < i)
-		{
-			tmp[j] = arg[i];
-			i++;
-			j++;
-		}
-		tmp[j] = '\0';
-		while (env_node->next)
-		{
-			if (ft_strcmp(tmp, env_node->name))
-				return (env_node->value);
-			env_node = env_node->next;
-		}
-	}
-	return ("\0");
-}
 
 //  || (arg[i] == '"' && arg[i + 1] == '$'))		len = (ft_strlen(arg) - i);
 
 int main(int ac, char **av, char **envp)
 {
-	
-	// (void)ac;
-	t_env	*env_lst;
+		t_env	*env_lst;
 	
 	// int run_time = 0;
 
@@ -728,21 +648,9 @@ int main(int ac, char **av, char **envp)
 	create_linked_list(&env_lst, envp);
 	set_env(&env_lst, envp);
 
-
-	char	*rline;
-	char	*str;
-
-	while (1)
-	{
-		rline = readline("minishell> ");
-		// str = expended_env_var(&env_lst, rline);
-		str = d_quotes_expend_env_var(&env_lst, rline);
-		printf("%s\n", str);
-	}
-
 // ----------------------------------------------------------------------------
 
-/*	// CMD LINE
+	// CMD LINE
 	if (ft_strcmp(av[1], "env"))
 		exec_env_built_in(&env_lst, fd);
 	if (ft_strcmp(av[1], "export"))
@@ -753,7 +661,7 @@ int main(int ac, char **av, char **envp)
 		exec_cd_built_in(&env_lst, av);
 	if (ft_strcmp(av[1], "pwd"))
 		exec_pwd_built_in(fd);
-*/
+
 // ----------------------------------------------------------------------------
 
 	// run_time++;
