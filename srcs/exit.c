@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 17:17:30 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/05 19:01:33 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/13 03:14:24 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	*pt_free_list(t_token *list)
 	while (list)
 	{
 		to_free = list;
+		free(list->name);
 		list = list->next;
 		free(to_free);
 	}
