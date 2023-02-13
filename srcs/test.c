@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 14:24:32 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/13 00:43:59 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/13 02:43:37 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,12 @@ void	print_node(t_token *token)
 // 		printf("next token = %s\n", token->next->name);
 // 	}
 
-	printf(RED"%10s: '%s'\n", get_tok_name(token->type), token->name);
+	printf(RED"%20s: '%s'\n", get_tok_name(token->type), token->name);
 	// if (token->next)
 	// {
 	// 	printf("next token = %s\n", token->next->name);
 	// }
-	printf("%s", WHT);
+	printf("%s", YLW);
 }
 
 void	print_all_token(t_token *token)

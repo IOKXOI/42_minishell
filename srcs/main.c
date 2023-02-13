@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 05:01:04 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/13 02:11:41 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/13 02:42:27 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int32_t	main(void)
 		rline = readline(RED "minishell> ");
 		add_history(rline);
 		pt_parse(rline);
+		return (1);
 	}
 	return (0);
 }
