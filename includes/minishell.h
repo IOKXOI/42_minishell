@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 20:18:54 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/08 07:28:18 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/13 01:58:47 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,11 @@ int32_t	pt_get_token(int32_t offset_in_line, char *line, t_token *token_node);
 
 //-----------------------------ptt_typing_token.c --------------------------.//
 void	ptt_typing_token(t_token *token_list);
+
+//--------------------------------pl_lexer.c -------------------------------.//
+/*Calls functions who's check the next node to track syntax errors*/
+bool	p_lexeur(t_token *token_list);
+
 // ========================================================================= //
 //                                    Exec                                   //
 // ========================================================================= //
