@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 20:18:54 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/13 01:58:47 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/13 05:14:39 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,16 @@ typedef struct s_token {
 	struct s_token	*next;
 }t_token;
 
+typedef struct s_complete_cmd {
+	char			*commande;
+	char			*infile;
+	char			*outfile;
+	char			*limiter;
+	char			**args;
+	t_complete_cmd	*first;
+	t_complete_cmd	*prev;
+	t_complete_cmd	*next;
+}t_complete_cmd;
 // ========================================================================= //
 //                                  Parsing                                  //
 // ========================================================================= //
