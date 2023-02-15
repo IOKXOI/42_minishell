@@ -23,3 +23,4 @@ SRCS := 									\
 		pt_exploration.c					\
 		ptt_typing_token.c					\
 		pl_lexer.c							\
+		pa_aggregation.c					\

@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 20:18:54 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/13 05:14:39 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/15 05:00:36 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,15 +75,17 @@ typedef struct s_token {
 }t_token;
 
 typedef struct s_complete_cmd {
-	char			*commande;
-	char			*infile;
-	char			*outfile;
-	char			*limiter;
-	char			**args;
-	t_complete_cmd	*first;
-	t_complete_cmd	*prev;
-	t_complete_cmd	*next;
+	char					*commande;
+	char					*infile;
+	char					*outfile;
+	char					*outfile_append;
+	char					*limiter;
+	char					**args;
+	struct s_complete_cmd	*first;
+	struct s_complete_cmd	*prev;
+	struct s_complete_cmd	*next;
 }t_complete_cmd;
+
 // ========================================================================= //
 //                                  Parsing                                  //
 // ========================================================================= //
@@ -124,12 +126,6 @@ char	*pt_extraction_from_line(int32_t n, char *original);
 increment the offset, create a new line with the remainder, create new node
 and continu until remainder is only EOF*/
 
-/*Init first_node of the linked list*/
-t_token	*pt_init_node(void);
-
-/*Create a new_node to chain with the list*/
-t_token	*pt_create_new_node(t_token *existing_node);
-
 //------------------------------- pt_special.c -----------------------------.//
 /*check if character is a space*/
 bool	pt_is_space(int8_t character);
@@ -145,6 +141,7 @@ int16_t	pt_skip_until_special_is_next(char *line);
 
 /*free node which only spaces characters*/
 void	clean_spaces_nodes(t_token *token);
+/*____________________________________________________________________________*/
 
 
 //-----------------------------p_tokenization.c -----------------------------.//
@@ -161,12 +158,33 @@ special, so create a token for it. If noo speciaal, extract the part of line
 on a token*/
 int32_t	pt_get_token(int32_t offset_in_line, char *line, t_token *token_node);
 
+
+//------------------------------- pa_aggregation.c --------------------------.//
+t_complete_cmd	*pa_aggregation(t_token *token_list);
+
 //-----------------------------ptt_typing_token.c --------------------------.//
 void	ptt_typing_token(t_token *token_list);
 
 //--------------------------------pl_lexer.c -------------------------------.//
 /*Calls functions who's check the next node to track syntax errors*/
 bool	p_lexeur(t_token *token_list);
+
+//--------------------------------pl_lexer.c -------------------------------.//
+t_complete_cmd	*pta_aggregation(t_token *token_list);
+
+
+//------------------------------- t_linked_list.c --------------------------.//
+/*Init first_node of the linked list*/
+t_token	*pt_init_node(void);
+
+/*Create a new_node to chain with the list*/
+t_token	*pt_create_new_node(t_token *existing_node);
+
+/*Init first_node of the complete_cmd_list and set values to NULL*/
+t_complete_cmd	*init_command_list(void);
+
+/*Create new complete_cmd node, set values to NULL and link with last one*/
+t_complete_cmd	*new_complete_cmd(t_complete_cmd *cmd_list);
 
 // ========================================================================= //
 //                                    Exec                                   //
