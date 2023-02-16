@@ -13,6 +13,7 @@
 #define NO_QUOTE 1
 #define SGL_QUOTE 2
 #define DBL_QUOTE 3
+#define DOLLA_DBL_QUOTE 4
 
 
 // ------------------------ Env Utils To Remove -------------------------------
@@ -32,6 +33,16 @@ size_t		ft_strlen(char *str)
 		return (0);
 	i = 0;
 	while (str[i])
+		i++;
+	return (i);
+}
+
+size_t	no_quote_env_var_len_name(char *env_value)
+{
+	size_t	i;
+
+	i = 1;
+	while (env_value[i] && (env_value[i] != '$' && i != 0))
 		i++;
 	return (i);
 }
@@ -69,7 +80,12 @@ char	*ft_strjoin(char *s1, char *s2)
 	while (s2[++j])
 		str[i++] = s2[j];
 	str[i] = '\0';
-	return (free(s1), free(s2), str);
+
+
+	// POSSIBLE LEEK
+
+	return (free(s1), str);
+	// return (free(s1), free(s2), str);
 }
 
 t_env	*create_env_node(void)
@@ -204,56 +220,135 @@ void	set_env(t_env **env_lst, char **envp)
 	}
 }
 
+int		in_quote_len(char *r_line, char quote)
+{
+	int		len;
+
+	len = 0;
+	while ((r_line[len + 1] != quote) && (r_line[len] != '\\'))
+		len++;
+	return (len);
+}
+
+char	*remove_quote(char *arg, char quote)
+{
+	char	*str;
+	int		len;
+	int		i;
+	int		j;
+
+	len = in_quote_len(arg, '\"');
+	str = malloc(sizeof(char) * len + 1);
+	// free
+	i = 0;
+	j = 1;
+	while (i < len)
+	{
+
+		str[i] = arg[i + 1];
+		i++;
+	}
+	str[i] = '\0';
+	// free(arg);
+	return (str);
+}
+
+char	*remove_quote_and_dollar(char *arg, char quote)
+{
+	char	*str;
+	int		len;
+	int		i;
+	int		j;
+
+	// if (!arg)
+	// 	return ;
+	len = in_quote_len(arg + 1, '\"');
+	i = 0;
+	j = 0;
+	str = malloc(sizeof(char) * len + 1);
+	// Free
+	while (i < len)
+	{
+		str[i] = arg[i + 2];
+		i++;
+	}
+	str[i] = '\0';
+	// free(arg);
+	return (str);
+}
+
 // ----------------------------------------------------------------------------
 
 // -------------------------------- Expend ------------------------------------
 
 
 
-// char	*r_line_env_var(char	*arg, int state)
-// {
+char	*get_splitted_env_name(char *arg)
+{
+	char	*str;
+	int		i;
+	int 	len;
 
-// }
+	len = 0;
+	while (arg[len])
+	{
+		if (!arg[len] || arg[len] == '$'
+			|| arg[len] == '\'' || arg[len] == '\"')
+			break;
+		len++;
+	}
+	str = malloc(sizeof(char) * len + 1);
+	// Free
+	i = 0;
+	while (i < len)
+	{
+		str[i] = arg[i];
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
+}
 
 char	*expended_env_var(t_env **env_lst, char *arg)
 {
 	t_env	*env_node;
-	// char	*v_name;
+	char	*v_name;
 	char	*value;
-	// int		len;
 
 	env_node = *env_lst;
 	if (arg[0] == '$')
 	{
-		// len = 1;
-		// while (arg[len] != ' ' || arg[len] != '$' || arg[len] != '\0')
+		v_name = get_splitted_env_name(arg + 1);
 		while (env_node->next)
 		{
-			// v_name = r_line_env_var(arg, NO_QUOTE);
-			
-			if (ft_strcmp(arg + 1, env_node->name))
+			if (ft_strcmp(v_name, env_node->name))
 			{
 				value = ft_strdup(env_node->value);
+				free(v_name);
 				return (value);
 			}
 			env_node = env_node->next;
 		}
 	}
+	free(v_name);
 	value = malloc(sizeof(char) * 1);
 	value[0] = '\0';
 	return (value);
 }
 
-int		in_quote_len(char c, char *r_line)
+
+
+int		dollar_quote_len(char *r_line, char quote)
 {
 	int		len;
 
 	len = 0;
-	while ((r_line[len + 2] != c) && (r_line[len + 1] != '\\'))
+	while ((r_line[len + 2] != quote) && (r_line[len + 1] != '\\'))
 		len++;
 	return (len);
 }
 
+// -------------------------- Dolla Sgl Quote ---------------------------------
 
 char	*dollar_sgl_quote_pathern_str(char *r_line)
 {
@@ -263,7 +358,7 @@ char	*dollar_sgl_quote_pathern_str(char *r_line)
 
 	if (r_line[0] == '$' && r_line[1] == '\'')
 	{
-		len = in_quote_len('\'', r_line);
+		len = dollar_quote_len(r_line, '\'');
 		if (len == 0)
 			return (NULL);
 		str = malloc(sizeof(char) * len + 1);
@@ -280,6 +375,9 @@ char	*dollar_sgl_quote_pathern_str(char *r_line)
 	return (NULL);
 }
 
+// ----------------------------------------------------------------------------
+
+// ---------------------------- Dolla Dbl Quote -------------------------------
 
 char	*dollar_dbl_quote_pathern_str(char *r_line)
 {
@@ -289,7 +387,7 @@ char	*dollar_dbl_quote_pathern_str(char *r_line)
 
 	if (r_line[0] == '$' && r_line[1] == '\"')
 	{
-		len = in_quote_len('\"', r_line);
+		len = dollar_quote_len(r_line, '\"');
 		if (len == 0)
 			return (NULL);
 		str = malloc(sizeof(char) * len + 2);
@@ -314,7 +412,7 @@ bool	dollar_with_env_name(char *r_line, char quote, int i)
 	return (false);
 }
 
-int		env_var_name_len(char *r_line, char quote)
+int		quoted_env_var_len_name(char *r_line, char quote)
 {
 	int	len;
 
@@ -389,21 +487,6 @@ char	*ft_back_str(char *r_line)
 	return (back_str);
 }
 
-// char	*set_new_r_line()
-// {
-// 	char	*front;
-// 	char	*back;
-
-
-
-// }
-
-
-
-
-
-
-
 char	*expended_line(t_env **env_lst, char *r_line, int i, int len, char *val)
 {
 	char	*new_r_line;
@@ -417,10 +500,11 @@ char	*expended_line(t_env **env_lst, char *r_line, int i, int len, char *val)
 	first_half_r_line = ft_strjoin(front, val);
 	back = ft_back_str(&r_line[i + len + 1]);
 	new_r_line = ft_strjoin(first_half_r_line, back);
+	free(val);
 	return (new_r_line);
 }
 
-char	*expend_in_double_quote(t_env **env_lst, char *r_line)
+char	*expend_in_double_quote(t_env **env_lst, char *r_line, int id)
 {
 	char	*new_r_line;
 	char 	*expended_value;
@@ -434,7 +518,7 @@ char	*expend_in_double_quote(t_env **env_lst, char *r_line)
 	{
 		if (dollar_with_env_name(r_line, '\"', i))
 		{
-			len = env_var_name_len(&r_line[i + 1], '\"');
+			len = quoted_env_var_len_name(&r_line[i + 1], '\"');
 			value = look_for_env_value_name(r_line, i, len + 1);
 			expended_value = expended_env_var(env_lst, value);
 			new_r_line = expended_line(env_lst, r_line, i, len, expended_value);
@@ -444,61 +528,164 @@ char	*expend_in_double_quote(t_env **env_lst, char *r_line)
 		else
 			i++;
 	}
+
+
+	if (id == DOLLA_DBL_QUOTE)
+	{
+
+		if (new_r_line == NULL)
+		{
+			r_line = remove_quote_and_dollar(r_line, '\"');
+			return (r_line);
+		}
+		new_r_line = remove_quote_and_dollar(new_r_line, '\"');
+		return (new_r_line);
+	} 
+
 	if (new_r_line == NULL)
+	{
+		r_line = remove_quote(r_line, '\"');
 		return (r_line);
+	}
+	new_r_line = remove_quote(new_r_line, '\"');
 	return (new_r_line);
+
+
+	// r_line = expended_dbl_quote_str(r_line, new_r_line);
+	// return (new_r_line);
+
 }
 
 // ----------------------------------------------------------------------------
 
-void	expend(t_env **env_lst, char *r_line)
+// ------------------------------ Sgl Quote -----------------------------------
+
+
+
+char	*sgl_quote_pathern(char *arg)
 {
-	char	*arg;
-	int		state;
+	char	*str;
 	int		len;
 	int		i;
 
+	len = in_quote_len(arg, '\'');
+	// printf(">> %d\n", len);
+	str = malloc(sizeof(char) * len + 1);
+	// Free
 	i = 0;
-	while (r_line[i])
+	while (i < len)
 	{
-
-		if (r_line[0] == '$' && r_line[i + 1] == '\'')
-			arg = dollar_sgl_quote_pathern_str(&r_line[i]);
-		else if (r_line[i] == '$' && r_line[i + 1] == '\"')
-			arg = dollar_dbl_quote_pathern_str(&r_line[i]);
-		else if (arg[i] == '$')
-			arg = expended_env_var(env_lst, &r_line[i]);
+		str[i] = arg[i + 1];
 		i++;
 	}
+	str[i] = '\0';
+	return (str);
 }
 
+// ----------------------------------------------------------------------------
 
+// ------------------------------ No Quote ------------------------------------
 
+int		no_quote_arg_len(char *arg)
+{
+	int		len;
+
+	len = 0;
+	while (arg[len] && (arg[len] != '$'
+		&& (arg[len] != '\'' && arg[len - 1] != '\\')
+		&& (arg[len] != '\"' && arg[len - 1] != '\\')))
+		len++;
+	return (len);
+}
+
+char	*no_quote_arg(char *arg, int len)
+{
+	char	*str;
+	int		i;
+
+	str = malloc(sizeof(char) * (len + 1));
+	// Free
+	i = 0;
+	while (i < len)
+	{
+		str[i] = arg[i];
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
+}
+
+// ----------------------------------------------------------------------------
+
+char *exp_str(char *arg, char *tmp)
+{
+	char *str;
+
+	if (!arg)
+		str = tmp;
+	else
+		str = ft_strjoin(arg, tmp);
+	return (str);
+}
 
 int main(int ac, char **av, char **envp)
 {
 	t_env	*env_lst;
     char	*r_line;
-	char	*str;
+	char	*arg;
+	char 	*tmp;
+	int		i;
+	int		len;
 
 	(void)ac;
 	(void)av;
 
-
 	create_linked_list(&env_lst, envp);
 	set_env(&env_lst, envp);
+
 	while (1)
 	{
-		r_line = readline("minishell> ");
-
-		// printf("%s\n\n", r_line_env_var(r_line, NO_QUOTE));
-
-
-		// str = expended_env_var(&env_lst, r_line);
-		// str = dollar_sgl_quote_pathern_str(r_line);
-		str = expend_in_double_quote(&env_lst, r_line);
-		// str = dollar_dbl_quote_pathern_str(r_line);
-
-		printf("%s\n", str);
+		i = 0;
+		arg = NULL;
+		r_line = readline("ghettoshell> ");
+		while (r_line[i])
+		{
+			if (r_line[i] == '$' && r_line[i + 1] == '\'')
+			{
+				len = dollar_quote_len(&r_line[i], '\'') + 3;
+				tmp = dollar_sgl_quote_pathern_str(&r_line[i]);
+			}
+			else if (r_line[i] == '$' && r_line[i + 1] == '\"')
+			{
+				len = dollar_quote_len(&r_line[i], '\"') + 3;
+				tmp = expend_in_double_quote(&env_lst, &r_line[i], DOLLA_DBL_QUOTE);
+			}
+			else if (r_line[i] == '$')
+			{
+				len = no_quote_env_var_len_name(&r_line[i]);
+				tmp = expended_env_var(&env_lst, &r_line[i]);
+			}
+			else if (r_line[i] == '\"')
+			{
+				len = in_quote_len(&r_line[i], '\"') + 2;
+				tmp = expend_in_double_quote(&env_lst, &r_line[i], DBL_QUOTE);
+			}
+			else if (r_line[i] == '\'')
+			{
+				len = in_quote_len(&r_line[i], '\'') + 2;
+				tmp = sgl_quote_pathern(&r_line[i]);
+			}
+			else
+			{
+				len = no_quote_arg_len(&r_line[i]);
+				tmp = no_quote_arg(&r_line[i], len);
+			}
+			arg = exp_str(arg, tmp);
+			i += len;
+		}
+		printf("--------------------------------------------------------------\n");
+		printf("|  expend: '%s'\n", arg);
+		printf("--------------------------------------------------------------\n");
+		free(arg);
 	}
 }
