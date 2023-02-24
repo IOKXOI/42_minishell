@@ -6,40 +6,26 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 05:01:04 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/15 06:51:10 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/23 21:42:29 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-char	*pt_extraction_from_line(int32_t n, char *original)
-{
-	int16_t		i;
-	char		*new_line;
-
-	i = 0;
-	new_line = malloc(sizeof(char) * n + 2);
-	if (!new_line)
-		return (NULL);
-	while (i <= n)
-	{
-		new_line[i] = original[i];
-		i++;
-	}
-	new_line[i] = '\0';
-	return (new_line);
-}
-
 bool	pt_parse(char *line)
 {
-	t_token	*token_list;
+	t_token			*token_list;
+	t_complete_cmd	*commande;
 
 	token_list = pt_tokenization(line);
+	first_check_parse_error(token_list);
+	print_all_token(token_list->first);
 	ptt_typing_token(token_list);
 	p_lexeur(token_list);
-	pa_aggregation(token_list);
-	print_all_token(token_list->first);
-	pt_free_list(token_list->first);
+	printf("==============\n");
+	commande = pa_aggregation(token_list);
+	print_complete_commande_list(commande);
+	//pt_free_list(token_list->first);
 	return (0);
 }
 
@@ -53,7 +39,6 @@ int32_t	main(void)
 		rline = readline(RED "minishell> ");
 		add_history(rline);
 		pt_parse(rline);
-		//return (1);
 	}
 	return (0);
 }

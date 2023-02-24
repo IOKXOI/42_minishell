@@ -6,11 +6,30 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 14:06:56 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/13 00:42:49 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/21 17:12:21 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/*copy a snippet of the line on the other one*/
+char	*pt_extraction_from_line(int32_t n, char *original)
+{
+	int16_t		i;
+	char		*new_line;
+
+	i = 0;
+	new_line = malloc(sizeof(char) * n + 2);
+	if (!new_line)
+		return (NULL);
+	while (i <= n)
+	{
+		new_line[i] = original[i];
+		i++;
+	}
+	new_line[i] = '\0';
+	return (new_line);
+}
 
 int32_t	pt_get_token(int32_t offset_in_line, char *line, t_token *token_node)
 {
@@ -61,7 +80,13 @@ t_token	*pt_tokenization(char *line)
 			pt_free_list(token_list->first);
 			exit (1);
 		}
-		else if (token_list->name)
+		else if (!token_list->name)
+		{
+			token_list->next = pt_create_new_node(token_list);
+			token_list->name = ft_strdup("");
+			token_list = token_list->next;
+		}
+		else 
 		{
 			token_list->next = pt_create_new_node(token_list);
 			token_list = token_list->next;

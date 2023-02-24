@@ -1,2 +1,6 @@
-echo coucou > a > b > c > d
- echo -n caca caca | ech
+bonjour comment ca> >va?
+
+> |
+< |
+<|
+| |

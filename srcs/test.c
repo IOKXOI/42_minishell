@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 14:24:32 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/13 02:43:37 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/19 20:44:05 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	print_node(t_token *token)
 // 		printf("next token = %s\n", token->next->name);
 // 	}
 
-	printf(RED"%20s: '%s'\n", get_tok_name(token->type), token->name);
+	printf(RED"%20s: %s\n", get_tok_name(token->type), token->name);
 	// if (token->next)
 	// {
 	// 	printf("next token = %s\n", token->next->name);
@@ -78,5 +78,65 @@ void	print_all_token(t_token *token)
 	{
 		print_node(token);
 		token = token->next;
+	}
+}
+
+void print_complete_commande_list(t_complete_cmd *commande)
+{
+	int i = 0;
+	while (commande)
+	{
+		if (commande->commande)
+			printf(RED"%20s: commande\n", commande->commande);
+		if (commande->infile)
+		{
+			while (commande->infile[i])
+			{
+				printf(RED"%20s: infile\n", commande->infile[i]);
+				i++;
+			}
+			i = 0;
+		}
+		if (commande->outfile)
+		{
+			while (commande->outfile[i])
+			{
+				printf(RED"%20s: outfile\n", commande->outfile[i]);
+				i++;
+			}
+			i = 0;
+		}
+		if (commande->outfile_append)
+		{
+			while (commande->outfile_append[i])
+			{
+				printf(RED"%20s: outfile_append\n", commande->outfile_append[i]);
+				i++;
+			}
+			i = 0;
+		}
+		if (commande->limiter)
+		{
+			while (commande->limiter[i])
+			{
+				printf(RED"%20s: limiter\n", commande->limiter[i]);
+				i++;
+			}
+			i = 0;
+		}
+		if (commande->args)
+		{
+			while (commande->args[i])
+			{
+				printf(RED"%20s: args\n", commande->args[i]);
+				i++;
+			}
+			i = 0;
+		}
+		else 
+			printf(RED"NULL = commande_args\n");
+		printf(RED"%20d: args_nb\n", commande->args_number);
+		commande = commande->next;
+		printf("______________\n");
 	}
 }

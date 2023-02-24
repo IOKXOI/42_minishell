@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 20:46:02 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/13 02:02:20 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/21 15:51:01 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ static bool	pipe_analyser(t_token *token_list)
 		{
 			if (token_list->next->type == PIPE)
 				return (false);
-			// else if (token_list->next->type == END)
-			// 	return (false);
+			else if (token_list->next->type == END)
+				return (false);
 		}
 		token_list = token_list->next;
 	}

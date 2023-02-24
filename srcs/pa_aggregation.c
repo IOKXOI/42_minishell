@@ -12,90 +12,110 @@
 
 #include <minishell.h>
 
+/*fill **args in complete_commande struct, leaving index 0 for commande*/
 static void	pa_fill_args(t_complete_cmd *cmd, char *name)
 {
-	int16_t	i;
-	
-	i = 0;
-	printf("token name = %s, cmd_->args%p \n", name, cmd->args);
-	while (cmd->args[i])
-		i++;
-	cmd->args[i] = name;
+	uint32_t	empty_args;
+
+	empty_args = 1;
+	while (cmd->args[empty_args] != NULL)
+		empty_args++;
+	cmd->args[empty_args] = name;
 }
+
+static void	pa_fill_infile(t_complete_cmd *cmd, char *name)
+{
+	uint32_t	empty_infile;
+
+	empty_infile = 0;
+	while (cmd->infile[empty_infile] != NULL)
+		empty_infile++;
+	cmd->infile[empty_infile] = name;
+}
+
+static void	pa_fill_outfile(t_complete_cmd *cmd, char *name)
+{
+	uint32_t	empty_outfile;
+
+	empty_outfile = 0;
+	while (cmd->outfile[empty_outfile] != NULL)
+		empty_outfile++;
+	cmd->outfile[empty_outfile] = name;
+}
+
+static void	pa_fill_outfile_append(t_complete_cmd *cmd, char *name)
+{
+	uint32_t	empty_outfile_append;
+
+	empty_outfile_append = 0;
+	while (cmd->outfile_append[empty_outfile_append] != NULL)
+		empty_outfile_append++;
+	cmd->outfile_append[empty_outfile_append] = name;
+}
+
+static void	pa_fill_here_doc(t_complete_cmd *cmd, char *name)
+{
+	uint32_t	empty_here_doc;
+
+	empty_here_doc = 0;
+	while (cmd->limiter[empty_here_doc] != NULL)
+		empty_here_doc++;
+	cmd->limiter[empty_here_doc] = name;
+}
+
 
 static void	pa_token_traitment(t_token *token, t_complete_cmd *cmd)
 {
 	if (token->type == WORD)
 		pa_fill_args(cmd, token->name);
 	else if (token->type == CMD)
+	{
 		cmd->commande = token->name;
-	else if (token->type == REDIR_IN)
-		cmd->infile = token->name;
-	else if (token->type == REDIR_OUT)
-		cmd->outfile = token->name;
-	else if (token->type == REDIR_APPEND)
-		cmd->outfile_append = token->name;
+		cmd->args[0] = token->name;
+	}
+	else if (token->type == IN_FILE)
+		pa_fill_infile(cmd, token->name);
+	else if (token->type == OUT_FILE)
+		pa_fill_outfile(cmd, token->name);
+	else if (token->type == OUT_FILE_APPEND)
+		pa_fill_outfile_append(cmd, token->name);
 	else if (token->type == LIMITER)
-		cmd->limiter = token->name;
-	free(token);
+		pa_fill_here_doc(cmd, token->name);
 }
 
-int16_t	pa_get_args_number(t_token *token_list)
+
+t_token	*pa_fill_compete_cmd_node(t_token *token_start, t_complete_cmd *cmd)
 {
-	int	args_number;
-	
-	args_number = 0;
-	while (token_list && token_list->type != PIPE)
+	while (token_start->type != END && token_start->type != PIPE)
 	{
-		if (token_list->type == CMD || token_list->type == WORD)
-			args_number++;
-		token_list = token_list->next;
+		pa_token_traitment(token_start, cmd);
+		token_start = token_start->next;
 	}
-	return (args_number);
+	return(pa_free_used_token(token_start));
 }
 
-t_token	*pa_get_cmd(t_token *token_start, t_complete_cmd *cmd)
-{
-	int16_t	args_number;
-	t_token	*token;
-	
-	token = token_start->next;
-	cmd->args_nb = pa_get_args_number(token_start);
-	printf("args_number = %d\n", args_number);
-	cmd->args = malloc(sizeof(char *) * (cmd->args_nb + 1));
-	// if (!cmd->cmd)
-	// 	return (NULL);
-	cmd->args[args_number] = NULL;
-	while (token->type != END && token->type != PIPE)
-	{
-		pa_token_traitment(token, cmd);
-		token = token->next;
-	}
-	return (token_list_first);
-}
-
-t_complete_cmd	*pa_aggregation(t_token *token_list)
+t_complete_cmd	*pa_aggregation(t_token *token_list_section)
 {
 	t_complete_cmd	*complete_cmd_list;
-
-	complete_cmd_list = init_command_list();
+	complete_cmd_list = init_command_list(token_list_section->first);
 	if (!complete_cmd_list)
-	{
-		pt_free_list(token_list);
-		printf("Error: malloc failed in pta_aggregation\n");
 		return (NULL);
-	}
-	while (token_list)
+	while (token_list_section)
 	{
-		token_list = pa_get_cmd(token_list->first, complete_cmd_list);
-		complete_cmd_list = new_complete_cmd(complete_cmd_list);
-		if (!complete_cmd_list)
-		{
-			pt_free_list(token_list);
-			printf("Error: malloc failed in pta_get_cmd\n");
+		print_all_token(token_list_section->first);
+		printf("==============\n");
+		if (!set_malloc_complete_cmd(token_list_section->first, complete_cmd_list))
 			return (NULL);
-		}
+		token_list_section = pa_fill_compete_cmd_node(token_list_section->first, complete_cmd_list);
+		if (!token_list_section)
+			break;
+		complete_cmd_list = new_complete_cmd(complete_cmd_list);
+		// if (!complete_cmd_list)
+		// {
+		// 	pt_free_list(token_list_section);
+		// 	printf("Error: malloc failed in pta_get_cmd\n");
+		// 	return (NULL);
+		// }
 	}
-	return (complete_cmd_list);
+	return (complete_cmd_list->first);
 }
-	

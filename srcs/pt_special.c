@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 01:18:10 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/13 00:43:51 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/24 00:41:12 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,11 @@ enum e_type	pt_is_special(int8_t character)
 		return (REDIR_OUT);
 	else if (character == '|')
 		return (PIPE);
-	else if (character == '\'')
-		return (SINGLE_Q);
-	else if (character == '"')
-		return (DOUBLE_Q);
+	
+	// else if (character == '\'')
+	// 	return (SINGLE_Q);
+	// else if (character == '"')
+	// 	return (DOUBLE_Q);
 	return (0);
 }
 
@@ -49,28 +50,29 @@ char	*get_special(int32_t offsett_in_line, char *line, t_token *token_node)
 	return (token_node->name);
 }
 
-int16_t	pt_skip_until_special_is_next(char *line)
+uint32_t	pt_skip_until_special_is_next(char *line)
 {
-	int16_t	offset_in_line;
+	uint8_t		quote_type;
+	uint32_t	offset_in_line;
 
 	offset_in_line = 0;
 	if (pt_is_special(line [offset_in_line]))
 		return (offset_in_line);
-	while (line[offset_in_line] && !pt_is_special(line[offset_in_line + 1]))
-		offset_in_line++;
-	if (!line[offset_in_line])
-		return (offset_in_line - 1);
-	return (offset_in_line);
-}
-
-void	clean_spaces_nodes(t_token *token)
-{
-	while (token)
+	while (line[offset_in_line])
 	{
-		if (token->type == SPACE_BIS)
+		quote_type = pt_is_quote(line[offset_in_line]);
+		while (quote_type)
 		{
-			free_node(token);
-			token = token->next;
+			offset_in_line += pt_get_next_quote(quote_type, line + offset_in_line);
+			if (!line[offset_in_line])
+				return (offset_in_line - 1);
+			quote_type = pt_is_quote(line[offset_in_line + 1]);
+			if (quote_type)
+				offset_in_line++;
 		}
+		if (pt_is_special(line[offset_in_line + 1]))
+			return (offset_in_line);
+		offset_in_line++;
 	}
+	return (offset_in_line - 1);
 }

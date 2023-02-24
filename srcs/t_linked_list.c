@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 13:06:14 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/15 04:57:13 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/19 20:38:53 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,13 @@ t_token	*pt_create_new_node(t_token *existing_node)
 	return (new_node);
 }
 
-t_complete_cmd	*init_command_list(void)
+t_complete_cmd	*init_command_list(t_token *token_list_start)
 {
 	t_complete_cmd	*cmd_list;
 
 	cmd_list = malloc(sizeof(t_complete_cmd));
 	if (!cmd_list)
-		return (NULL);
+		return (pt_free_list(token_list_start), NULL);
 	cmd_list->first = cmd_list;
 	cmd_list->prev = NULL;
 	cmd_list->next = NULL;
@@ -82,4 +82,30 @@ t_complete_cmd	*new_complete_cmd(t_complete_cmd *cmd_list)
 	new_cmd->limiter = NULL;
 	new_cmd->args = NULL;
 	return (new_cmd);
+}
+
+t_token	*pa_free_used_token(t_token *token)
+{
+	t_token	*tmp;
+	t_token	*separator;
+	
+	separator = token->next;
+	if (token->type == END)
+	{
+		free(token->first);
+		free(token);
+		return (NULL);
+	}
+	else
+	{
+		while (token->type != START)
+		{
+			tmp = token->prev;
+			free(token);
+			token = tmp;
+		}
+		token->first->next = separator;
+		separator->prev = token->first;
+		return (token->first);
+	}
 }

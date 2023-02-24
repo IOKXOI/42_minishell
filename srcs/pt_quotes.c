@@ -6,13 +6,13 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 08:56:16 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/13 00:43:43 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/02/21 15:54:50 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int16_t	pt_is_quote(int8_t charater)
+int8_t	pt_is_quote(int8_t charater)
 {
 	if (charater == '\'')
 		return (SINGLE_Q);
@@ -21,17 +21,29 @@ int16_t	pt_is_quote(int8_t charater)
 	return (0);
 }
 
-char	*pt_get_quoting(int16_t quote_type, char *quote_start)
+// bool	next_is_not_quote(char *quote_start, int32_t offset_in_quote)
+// {
+// 	if (quote_start[offset_in_quote] == '\\')
+// 	{
+// 		if (quote_start[offset_in_quote + 1] == '\0')
+// 			return (false);
+// 		if (quote_start[offset_in_quote + 1] == '\'')
+// 			return (false);
+// 		if (quote_start[offset_in_quote + 1] == '"')
+// 			return (false);
+// 	}
+// 	return (true);
+// }
+
+int32_t	pt_get_next_quote(int16_t quote_type, char *quote_start)
 {
-	int16_t		offset_in_quote;
-	char		*token;
+	int32_t		offset_in_quote;
 
 	offset_in_quote = 1;
 	while (quote_start[offset_in_quote] \
 		&& ((pt_is_quote(quote_start[offset_in_quote]) != quote_type)))
 		offset_in_quote++;
-	token = pt_extraction_from_line(offset_in_quote, quote_start);
-	return (token);
+	return (offset_in_quote);
 }
 
 int32_t	pt_full_quote(int32_t offset_in_line, char *line, t_token *token_node)
@@ -39,7 +51,6 @@ int32_t	pt_full_quote(int32_t offset_in_line, char *line, t_token *token_node)
 	int16_t		quote_type;
 
 	quote_type = pt_is_quote(line[offset_in_line]);
-	token_node->name = pt_get_quoting(quote_type, line + offset_in_line);
 	if (token_node->name == NULL)
 	{
 		pt_free_list(token_node->first);
