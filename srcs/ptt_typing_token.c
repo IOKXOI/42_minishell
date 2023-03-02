@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 00:03:17 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/13 03:16:51 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/03/02 02:06:19 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,6 @@ t_token	*fusion_node(enum e_type type, t_token *token, t_token *next)
 	new = malloc(sizeof(t_token));
 	// if (!new)
 	// 	exit_minishell(token);
-	new->name = ft_strjoin(token->name, next->name);
-	// if (!new->name)
-	// 	exit_minishell(token);
 	new->type = type;
 	new->prev = token->prev;
 	new->next = next->next;
@@ -30,8 +27,11 @@ t_token	*fusion_node(enum e_type type, t_token *token, t_token *next)
 		token->prev->next = new;
 	if (next->next)
 		next->next->prev = new;
+	new->name = ft_strjoin(token->name, next->name);
 	free(token->name);
 	free(next->name);
+	// if (!new->name)
+	// 	exit_minishell(token);
 	free(token);
 	free(next);
 	return (new);
@@ -54,7 +54,7 @@ t_token	*ptt_redir_out(t_token *token)
 }
 
 /*loop on list to regroup tokens between them to form an instruction*/
-int8_t ptt_fusonning_double_redir(t_token *token)
+int8_t	ptt_fusonning_double_redir(t_token *token)
 {
 	while (token)
 	{
@@ -79,8 +79,10 @@ void	ptt_typing_word_token(t_token *token)
 		token->type = LIMITER;
 	else if (v_type == REDIR_IN)
 		token->type = IN_FILE;
-	else if (v_type == REDIR_OUT || v_type == REDIR_APPEND)
+	else if (v_type == REDIR_OUT)
 		token->type = OUT_FILE;
+	else if (v_type == REDIR_APPEND)
+		token->type = OUT_FILE_APPEND;
 }
 
 /*loop on the token_list to reconize HERE_DOC and REDIR_APPEN,

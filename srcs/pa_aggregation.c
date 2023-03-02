@@ -63,7 +63,6 @@ static void	pa_fill_here_doc(t_complete_cmd *cmd, char *name)
 	cmd->limiter[empty_here_doc] = name;
 }
 
-
 static void	pa_token_traitment(t_token *token, t_complete_cmd *cmd)
 {
 	if (token->type == WORD)
@@ -83,32 +82,35 @@ static void	pa_token_traitment(t_token *token, t_complete_cmd *cmd)
 		pa_fill_here_doc(cmd, token->name);
 }
 
-
-t_token	*pa_fill_compete_cmd_node(t_token *token_start, t_complete_cmd *cmd)
+t_token	*pa_fill_compete_cmd_node(t_token *token, t_complete_cmd *cmd)
 {
-	while (token_start->type != END && token_start->type != PIPE)
+	while (token && token->type != PIPE)
 	{
-		pa_token_traitment(token_start, cmd);
-		token_start = token_start->next;
+		pa_token_traitment(token, cmd);
+		token = delete_used_token(token);
 	}
-	return(pa_free_used_token(token_start));
+	if (token && token->type == PIPE)
+	{
+		free(token->name);
+		token = delete_used_token(token);
+	}
+	return (token);
 }
 
 t_complete_cmd	*pa_aggregation(t_token *token_list_section)
 {
 	t_complete_cmd	*complete_cmd_list;
+
 	complete_cmd_list = init_command_list(token_list_section->first);
 	if (!complete_cmd_list)
 		return (NULL);
 	while (token_list_section)
 	{
-		print_all_token(token_list_section->first);
-		printf("==============\n");
 		if (!set_malloc_complete_cmd(token_list_section->first, complete_cmd_list))
 			return (NULL);
 		token_list_section = pa_fill_compete_cmd_node(token_list_section->first, complete_cmd_list);
 		if (!token_list_section)
-			break;
+			break ;
 		complete_cmd_list = new_complete_cmd(complete_cmd_list);
 		// if (!complete_cmd_list)
 		// {

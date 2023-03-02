@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 01:18:10 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/24 00:41:12 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/03/02 00:38:56 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ enum e_type	pt_is_special(int8_t character)
 		return (REDIR_OUT);
 	else if (character == '|')
 		return (PIPE);
-	
 	// else if (character == '\'')
 	// 	return (SINGLE_Q);
 	// else if (character == '"')

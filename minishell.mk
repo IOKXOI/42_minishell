@@ -9,6 +9,7 @@ INCS_DIR	:= includes
 SRCS := 									\
 		main.c								\
 		\
+		utils/only_space.c						\
 		utils/ft_strlen.c					\
 		utils/ft_strdup.c					\
 		utils/ft_strndup.c					\

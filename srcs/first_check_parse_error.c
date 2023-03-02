@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 00:01:20 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/24 00:46:16 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/03/02 00:40:10 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,12 @@
 
 void	free_white_space_nodes(t_token *token_list)
 {
-	int d = 0;
 	while (token_list)
 	{
-		if (token_list->type == SPACE_BIS)
-		{
+		if (only_space(token_list) == true)
 			token_list = free_node(token_list);
-		}		
-		printf("boucle = %d\n", d++);
-		token_list = token_list->next;
+		else
+			token_list = token_list->next;
 	}
 }
 
@@ -41,7 +38,7 @@ bool	check_redir_parse_error(t_token *token_list)
 				token_list = token_list->next;
 				space_checker = true;
 			}
-			if (token_list 
+			if (token_list
 				&& (token_list->type == REDIR_IN || token_list->type == REDIR_OUT || token_list->type == PIPE)
 				&& space_checker == true)
 			{
@@ -69,7 +66,7 @@ bool	check_pipe_parse_error(t_token *token_list)
 				token_list = token_list->next;
 				space_checker = true;
 			}
-			if (token_list 
+			if (token_list
 				&& (token_list->type == PIPE)
 				&& space_checker == true)
 			{
@@ -84,11 +81,11 @@ bool	check_pipe_parse_error(t_token *token_list)
 
 bool	first_check_parse_error(t_token *token_list)
 {
-	if (check_redir_parse_error(token_list) == false)
-		return (false);
-	if (check_pipe_parse_error(token_list) == false)
-		return (false);
-	free_white_space_nodes(token_list);
-	return (true);
-}
+	bool	check;
 
+	check = check_redir_parse_error(token_list);
+	if (check)
+		check = check_pipe_parse_error(token_list);
+	free_white_space_nodes(token_list);
+	return (check);
+}

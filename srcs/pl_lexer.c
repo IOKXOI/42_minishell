@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 20:46:02 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/21 15:51:01 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/03/02 00:38:27 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static bool	redirect_analyser(t_token *token_list)
 	while (token_list->type != END)
 	{
 		if (token_list->type == REDIR_IN || token_list->type == REDIR_OUT
-		|| token_list->type == REDIR_APPEND || token_list->type == HERE_DOC)
+			|| token_list->type == REDIR_APPEND || token_list->type == HERE_DOC)
 		{
 			if (token_list->type == REDIR_IN && token_list->next->type == REDIR_OUT)
 				return (true);

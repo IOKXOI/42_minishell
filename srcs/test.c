@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 14:24:32 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/19 20:44:05 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/03/02 00:42:54 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ void	print_all_token(t_token *token)
 void print_complete_commande_list(t_complete_cmd *commande)
 {
 	int i = 0;
+	printf(RED"====FINAL LINKED CHAIN====\n");
 	while (commande)
 	{
 		if (commande->commande)

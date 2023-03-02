@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 20:18:54 by sydauria          #+#    #+#             */
-/*   Updated: 2023/02/24 00:45:20 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/03/02 00:23:42 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,10 @@ typedef struct s_complete_cmd {
 void	*pt_free_list(t_token *list);
 
 t_token	*free_node(t_token *node);
+
+/*free token who was aggregate on the complete commande list, and return
+ next one.*/
+t_token	*delete_used_token(t_token *token);
 
 void	free_complete_command_list(t_complete_cmd *complete_commande);
 /*===========================================================================*/
@@ -228,6 +232,7 @@ t_token	*pa_free_used_token(t_token *token);
 //                                    Utils                                  //
 // ========================================================================= //
 
+bool	only_space(t_token * token);
 void	*pt_free_list(t_token *list);
 char	*ft_strdup(const char *str);
 char	*ft_strndup(char *buffer, size_t n);
