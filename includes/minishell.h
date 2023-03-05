@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 20:18:54 by sydauria          #+#    #+#             */
-/*   Updated: 2023/03/02 00:23:42 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/03/02 05:45:51 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,9 @@ typedef struct s_token {
 }t_token;
 
 typedef struct s_complete_cmd {
+	uint32_t				pipe_number;
+	uint32_t				pipe_fd[3];
+	uint32_t				*pid_register;
 	uint32_t				args_number;
 	uint32_t				infile_number;
 	uint32_t				outfile_number;
@@ -86,6 +89,7 @@ typedef struct s_complete_cmd {
 	char					**outfile;
 	char					**outfile_append;
 	char					**limiter;
+	char					**paths;
 	struct s_complete_cmd	*first;
 	struct s_complete_cmd	*prev;
 	struct s_complete_cmd	*next;
