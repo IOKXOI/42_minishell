@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 08:53:30 by sydauria          #+#    #+#             */
-/*   Updated: 2023/03/02 20:00:26 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/03/05 22:23:11 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,21 +48,21 @@ static char	**parse_paths(char *envp[], t_elements *elements)
 	return (paths);
 }
 
-static char	**parse_files(char *argv[], t_elements *elements)
-{
-	char	**files;
+// static char	**parse_files(char *argv[], t_elements *elements)
+// {
+// 	char	**files;
 
-	files = malloc(sizeof(char *) * 2);
-	if (!files)
-		error("parse_files : malloc", elements);
-	files[0] = ft_strdup(argv[1]);
-	if (!files[0])
-		error("parse_files : ft_strdup", elements);
-	files[1] = ft_strdup(argv[elements->argc - 1]);
-	if (!files[1])
-		error("parse_files : ft_strdup", elements);
-	return (files);
-}
+// 	files = malloc(sizeof(char *) * 2);
+// 	if (!files)
+// 		error("parse_files : malloc", elements);
+// 	files[0] = ft_strdup(argv[1]);
+// 	if (!files[0])
+// 		error("parse_files : ft_strdup", elements);
+// 	files[1] = ft_strdup(argv[elements->argc - 1]);
+// 	if (!files[1])
+// 		error("parse_files : ft_strdup", elements);
+// 	return (files);
+// }
 
 // static t_commands	*parse_commands(char *argv[], t_elements *elements)
 // {

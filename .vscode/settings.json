@@ -4,6 +4,8 @@
 		"minishell.h": "c",
 		"compare": "c",
 		"type_traits": "c",
-		"typeinfo": "c"
+		"typeinfo": "c",
+		"limits": "c",
+		"new": "c"
 	}
 }

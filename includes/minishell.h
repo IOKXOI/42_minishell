@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 20:18:54 by sydauria          #+#    #+#             */
-/*   Updated: 2023/03/02 05:45:51 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/03/05 21:59:02 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ enum e_type {
 
 typedef struct s_token {
 	enum e_type		type;
-	char			*name;//content
+	char			*name;
 	struct s_token	*first;
 	struct s_token	*prev;
 	struct s_token	*next;
