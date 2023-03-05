@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 20:18:54 by sydauria          #+#    #+#             */
-/*   Updated: 2023/03/05 21:59:02 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/03/05 23:47:49 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,11 @@ typedef struct s_complete_cmd {
 	struct s_complete_cmd	*next;
 }t_complete_cmd;
 
+typedef struct s_monitor{
+	int32_t		pipe_number;
+	int32_t		pipe_fd[3];
+	int32_t		*pid_register;
+}
 // ========================================================================= //
 //                                  Parsing                                  //
 // ========================================================================= //
