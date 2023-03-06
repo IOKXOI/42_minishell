@@ -97,11 +97,11 @@ t_token	*pa_fill_compete_cmd_node(t_token *token, t_complete_cmd *cmd)
 	return (token);
 }
 
-t_complete_cmd	*pa_aggregation(t_token *token_list_section)
+t_complete_cmd	*pa_aggregation(t_token *token_list_section, t_monitor *monitor)
 {
 	t_complete_cmd	*complete_cmd_list;
 
-	complete_cmd_list = init_command_list(token_list_section->first);
+	complete_cmd_list = init_command_list(token_list_section->first, monitor);
 	if (!complete_cmd_list)
 		return (NULL);
 	while (token_list_section)

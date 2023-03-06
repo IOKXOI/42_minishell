@@ -6,7 +6,7 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 13:06:14 by sydauria          #+#    #+#             */
-/*   Updated: 2023/03/02 00:36:40 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/03/06 23:03:35 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_token	*pt_create_new_node(t_token *existing_node)
 	return (new_node);
 }
 
-t_complete_cmd	*init_command_list(t_token *token_list_start)
+t_complete_cmd	*init_command_list(t_token *token_list_start, t_monitor *monitor)
 {
 	t_complete_cmd	*cmd_list;
 
@@ -60,6 +60,7 @@ t_complete_cmd	*init_command_list(t_token *token_list_start)
 	cmd_list->outfile_append = NULL;
 	cmd_list->limiter = NULL;
 	cmd_list->args = NULL;
+	cmd_list->monitor = monitor;
 	return (cmd_list);
 }
 

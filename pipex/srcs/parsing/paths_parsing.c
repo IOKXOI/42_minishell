@@ -6,47 +6,13 @@
 /*   By: sydauria <sydauria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 08:53:30 by sydauria          #+#    #+#             */
-/*   Updated: 2023/03/05 22:23:11 by sydauria         ###   ########.fr       */
+/*   Updated: 2023/03/06 23:13:26 by sydauria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static char	**get_paths(char **paths, t_elements *elements)
-{
-	int		i;
-	char	*tmp;
 
-	i = 0;
-	while (paths[i])
-	{
-		tmp = paths[i];
-		paths[i] = ft_strjoin(paths[i], "/");
-		if (!paths[i])
-			error("parse_paths : ft_strjoin", elements);
-		free(tmp);
-		i++;
-	}
-	return (paths);
-}
-
-static char	**parse_paths(char *envp[], t_elements *elements)
-{
-	int		i;
-	char	**paths;
-
-	i = 0;
-	while (envp[i] && ((envp[i][0] != 'P') || (envp[i][1] != 'A')
-		|| (envp[i][2] != 'T') || (envp[i][3] != 'H') || (envp[i][4] != '=')))
-		i++;
-	if (!envp[i])
-		return (NULL);
-	paths = ft_split(envp[i] + 5, ':');
-	if (!paths)
-		error("parse_paths : ft_split", elements);
-	paths = get_paths(paths, elements);
-	return (paths);
-}
 
 // static char	**parse_files(char *argv[], t_elements *elements)
 // {
@@ -87,10 +53,10 @@ static char	**parse_paths(char *envp[], t_elements *elements)
 // 	return (elements->first);
 // }
 
-void	init_struct(int argc, char *argv[], char *env[], t_elements *elements)
+void	init_struct(char *env[], t_monitor monitor, t_elements *elements)
 {
 	elements->paths = NULL;
-	elements->pid_register = NULL;
+	monitor->pid_register = NULL;
 	elements->paths = parse_paths(env, elements);
-	elements->pid_register = init_pid_register(argc, elements);
+	monitor->pid_register = init_pid_register(argc, elements);
 }

@@ -1,2 +1,0 @@
-Give type for all token
-regroup tokens around pipes 
